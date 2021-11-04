@@ -1,0 +1,4 @@
+kubectl apply -f https://raw.githubusercontent.com/ACloudGuru-Resources/content-cka-resources/master/metrics-server-components.yaml
+kubectl get --raw /apis/metrics.k8s.io/
+kubectl top pods
+kubectl top nodes
