@@ -22,6 +22,9 @@ EOF
 Apply new settings:
 sudo sysctl --system
 
+Remove any container runtime that may cause conflict in dependencies:
+dnf remove runc docker containerd podman
+
 Add the Docker repo and install Docker:
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
