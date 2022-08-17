@@ -1,5 +1,6 @@
 Building a Kubernetes 1.22 Cluster with Kubeadm
 
+
 Install Packages
 Log into the Control Plane Node (Note: The following steps must be performed on all three nodes.).
 Create configuration file for containerd:
@@ -29,7 +30,7 @@ Add the Docker repo and install Docker:
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 Install containerd:
-sudo apt-get update && sudo apt-get install -y containerd
+sudo dnf install -y containerd
 
 Create default configuration file for containerd:
 sudo mkdir -p /etc/containerd
@@ -52,19 +53,16 @@ sudo swapoff -a
 Disable swap on startup in /etc/fstab:
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-Install dependency packages:
-sudo apt-get update && sudo apt-get install -y apt-transport-https curl
-
-Download and add GPG key:
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
 Add Kubernetes to repository list:
-cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
+cat << EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+repo_gpgcheck=0
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+  https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
-
-Update package listings:
-sudo apt-get update
 
 Install Kubernetes packages (Note: If you get a dpkg lock message, just wait a minute or two before trying the command again):
 sudo apt-get install -y kubelet=1.22.0-00 kubeadm=1.22.0-00 kubectl=1.22.0-00
