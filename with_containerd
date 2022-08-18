@@ -77,6 +77,9 @@ sudo dnf versionlock list
 Enable the kubelet service. The kubelet service will fail to start until the cluster is initiliazed:
 sudo systemctl enable kubelet
 
+Install ip-route-tc for cluster initialization and worker nodes join
+sudo dnf install -y iproute-tc
+
 FIREWALL RULES:
 Disable firewalld:
 sudo systemctl stop firewalld
@@ -112,7 +115,6 @@ firewall-cmd --list-all
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
 Initialize the Cluster
 Initialize the Kubernetes cluster on the control plane node using kubeadm
-sudo dnf install -y iproute-tc
 sudo kubeadm init --pod-network-cidr 10.244.0.0/16
 
 IMPORTANT, COPY(DISPLAY THE "kubeadm join" command displayed it will be needed later)
