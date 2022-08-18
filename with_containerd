@@ -96,6 +96,7 @@ firewall-cmd --permanent --add-port=8285/udp
 firewall-cmd --add-masquerade --permanent
 firewall-cmd --reload
 systemctl restart firewalld
+firewall-cmd --list-all
 
 ON WORKER NODES:
 firewall-cmd --permanent --add-port=10250/tcp
@@ -104,7 +105,9 @@ firewall-cmd --permanent --add-port=8472/udp
 firewall-cmd --permanent --add-port=8285/udp
 firewall-cmd --permanent --add-port=30000-32767/tcp
 firewall-cmd --add-masquerade --permanent
+firewall-cmd --reload
 systemctl restart firewalld
+firewall-cmd --list-all
 
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
 Initialize the Cluster
