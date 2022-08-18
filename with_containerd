@@ -153,3 +153,5 @@ kubectl get pods --all-namespaces
 REFERENCES:
 https://kubernetes.io/docs/setup/production-environment/container-runtimes/
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+https://kubernetes.io/docs/reference/ports-and-protocols/
+https://github.com/flannel-io/flannel/blob/master/Documentation/troubleshooting.md
