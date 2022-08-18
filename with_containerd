@@ -74,7 +74,7 @@ sudo dnf versionlock add kubeadm kubectl kubelet
 sudo dnf versionlock list
 
 Enable the kubelet service. The kubelet service will fail to start until the cluster is initiliazed:
-systemctl enable kubelet
+sudo systemctl enable kubelet
 
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
 Initialize the Cluster
@@ -110,8 +110,11 @@ kubeadm token create --print-join-command
 Paste the kubeadm join command to join the cluster. Use sudo to run it as root:
 sudo kubeadm join ...
 
+4. ON BOTH CONTROL PLANE(MASTER) AND WORKER NODES
+Start kubelet service. For nodes to communicate with API Server
+sudo systemctl start kubelet
 
-4. ONLY ON CONTROL PLANE(MASTER) NODE
+5. ONLY ON CONTROL PLANE(MASTER) NODE
 In the Control Plane Node, view cluster status (Note: You may have to wait a few moments to allow all nodes to become ready):
 kubectl get nodes
 kubectl get pods --all-namespaces
