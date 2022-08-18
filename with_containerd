@@ -76,7 +76,7 @@ sudo dnf versionlock list
 Enable the kubelet service. The kubelet service will fail to start until the cluster is initiliazed:
 systemctl enable kubelet
 
-2. ONLY ON THE CONTROL PLANE(MASTER NODE)
+2. ONLY ON THE CONTROL PLANE(MASTER) NODE
 Initialize the Cluster
 Initialize the Kubernetes cluster on the control plane node using kubeadm
 sudo kubeadm init --pod-network-cidr 10.244.0.0/16
@@ -92,7 +92,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 CHOOSE BETWEEN FLANNEL(SIMPLE) OR CALICO(POLICY-BASED) CNI Network Providers
 
 All the following with k8s user
-sudo su - k8s
 
 On the Control Plane Node, Deploy Flannel:
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
@@ -107,10 +106,17 @@ Join the Worker Nodes to the Cluster
 In the Control Plane Node, create the token and copy the kubeadm join command (NOTE:The join command can also be found in the output from kubeadm init command):
 kubeadm token create --print-join-command
 
-In both Worker Nodes, paste the kubeadm join command to join the cluster. Use sudo to run it as root:
+3. ONLY ON ALL WORKER NODE
+Paste the kubeadm join command to join the cluster. Use sudo to run it as root:
 sudo kubeadm join ...
 
+
+4. ONLY ON CONTROL PLANE(MASTER) NODE
 In the Control Plane Node, view cluster status (Note: You may have to wait a few moments to allow all nodes to become ready):
 kubectl get nodes
 kubectl get pods --all-namespaces
 
+
+REFERENCES:
+https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
