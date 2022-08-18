@@ -74,23 +74,31 @@ sudo dnf versionlock add kubeadm kubectl kubelet
 sudo dnf versionlock list
 
 Enable the kubelet service. The kubelet service will fail to start until the cluster is initiliazed:
+systemctl enable kubelet
 
-
+2. ONLY ON THE CONTROL PLANE(MASTER NODE)
 Initialize the Cluster
-Initialize the Kubernetes cluster on the control plane node using kubeadm (Note: This is only performed on the Control Plane Node):
-sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.22.0
+Initialize the Kubernetes cluster on the control plane node using kubeadm
+sudo kubeadm init --pod-network-cidr 10.244.0.0/16
+
+IMPORTANT, COPY(DISPLAY THE "kubeadm join" command displayed it will be needed later)
 
 Set kubectl access:
+sudo su - k8s
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-Test access to cluster:
-kubectl get nodes
+CHOOSE BETWEEN FLANNEL(SIMPLE) OR CALICO(POLICY-BASED) CNI Network Providers
 
-Install the Calico Network Add-On
-On the Control Plane Node, install Calico Networking:
+On the Control Plane Node, Deploy Flannel:
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+OR
+
+On the Control Plane Node, deploy Calico:
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
 
 Check status of the control plane node:
 kubectl get nodes
