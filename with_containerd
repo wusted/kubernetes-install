@@ -43,6 +43,7 @@ Edit config.toml to enable systemd cgroup driver for container d
 sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
 
 Restart containerd to ensure new configuration file usage:
+sudo systemctl enable containerd
 sudo systemctl restart containerd
 
 Verify that containerd is running.
@@ -75,6 +76,35 @@ sudo dnf versionlock list
 
 Enable the kubelet service. The kubelet service will fail to start until the cluster is initiliazed:
 sudo systemctl enable kubelet
+
+FIREWALL RULES:
+Disable firewalld:
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+OR 
+
+ON CONTROL PLAN(MASTER) NODE:
+firewall-cmd --permanent --add-port=6443/tcp
+firewall-cmd --permanent --add-port=2379-2380/tcp
+firewall-cmd --permanent --add-port=10250/tcp
+firewall-cmd --permanent --add-port=10259/tcp
+firewall-cmd --permanent --add-port=10257/tcp
+firewall-cmd --permanent --add-port=10255/tcp
+firewall-cmd --permanent --add-port=8472/udp
+firewall-cmd --permanent --add-port=8285/udp
+firewall-cmd --add-masquerade --permanent
+firewall-cmd --reload
+systemctl restart firewalld
+
+ON WORKER NODES:
+firewall-cmd --permanent --add-port=10250/tcp
+firewall-cmd --permanent --add-port=10255/tcp
+firewall-cmd --permanent --add-port=8472/udp
+firewall-cmd --permanent --add-port=8285/udp
+firewall-cmd --permanent --add-port=30000-32767/tcp
+firewall-cmd --add-masquerade --permanent
+systemctl restart firewalld
 
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
 Initialize the Cluster
