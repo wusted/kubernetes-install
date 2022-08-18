@@ -1,5 +1,6 @@
-Building a Kubernetes 1.22 Cluster with Kubeadm
+Building a Kubernetes Cluster with Kubeadm
 
+1. ON BOTH CONTROL PLANE(MASTER) AND WORKER NODES
 
 Install Packages
 Log into the Control Plane Node (Note: The following steps must be performed on all three nodes.).
@@ -65,12 +66,16 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 EOF
 
 Install Kubernetes packages (Note: If you get a dpkg lock message, just wait a minute or two before trying the command again):
-sudo apt-get install -y kubelet=1.22.0-00 kubeadm=1.22.0-00 kubectl=1.22.0-00
+sudo dnf install -y kubelet kubeadm kubectl
 
 Turn off automatic updates:
-sudo apt-mark hold kubelet kubeadm kubectl
+sudo dnf install -y python3-dnf-plugin-versionlock
+sudo dnf versionlock add kubeadm kubectl kubelet
+sudo dnf versionlock list
 
-Log into both Worker Nodes to perform previous steps.
+Enable the kubelet service. The kubelet service will fail to start until the cluster is initiliazed:
+
+
 Initialize the Cluster
 Initialize the Kubernetes cluster on the control plane node using kubeadm (Note: This is only performed on the Control Plane Node):
 sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.22.0
