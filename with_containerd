@@ -91,6 +91,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 CHOOSE BETWEEN FLANNEL(SIMPLE) OR CALICO(POLICY-BASED) CNI Network Providers
 
+All the following with k8s user
+sudo su - k8s
+
 On the Control Plane Node, Deploy Flannel:
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
