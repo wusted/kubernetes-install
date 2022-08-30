@@ -14,6 +14,9 @@ Load modules:
 sudo modprobe overlay
 sudo modprobe br_netfilter
 
+Confirm modules loaded:
+lsmod | egrep 'overlay|br_netfilter'
+
 Set system configurations for Kubernetes networking:
 cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables = 1
@@ -23,6 +26,9 @@ EOF
 
 Apply new settings:
 sudo sysctl --system
+
+Confirm sysctl conf:
+sysctl -a | egrep 'net.bridge.bridge-nf-call-iptables|net.ipv4.ip_forward|net.bridge.bridge-nf-call-ip6tables'
 
 Remove any container runtime that may cause conflict in dependencies:
 sudo dnf remove -y runc docker containerd podman
