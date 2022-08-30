@@ -34,7 +34,7 @@ Remove any container runtime that may cause conflict in dependencies:
 sudo dnf remove -y runc docker containerd podman
 
 Add the Docker repo and install Docker:
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 Install containerd:
 sudo dnf install -y containerd
