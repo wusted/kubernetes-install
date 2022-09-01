@@ -100,6 +100,8 @@ firewall-cmd --permanent --add-port=10250/tcp
 firewall-cmd --permanent --add-port=10259/tcp
 firewall-cmd --permanent --add-port=10257/tcp
 firewall-cmd --permanent --add-port=10255/tcp
+firewall-cmd --permanent --add-port=53/tcp
+firewall-cmd --permanent --add-port=40434/udp
 firewall-cmd --permanent --add-port=8472/udp
 firewall-cmd --permanent --add-port=8285/udp
 firewall-cmd --add-masquerade --permanent
