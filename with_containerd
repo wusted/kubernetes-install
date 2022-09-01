@@ -119,6 +119,29 @@ systemctl restart firewalld
 firewall-cmd --list-all
 
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
+
+Set containerd.sock
+crictl config runtime-endpoint unix:///run/containerd/containerd.sock
+crictl config image-endpoint unix:///run/containerd/containerd.sock
+
+Set Env Proxy if required 
+vim /etc/systemd/system/containerd.service.d/http_proxy.conf
+
+[Service]
+Environment=HTTP_PROXY=http://proxy:port
+Environment=HTTPS_PROXY=http://proxy:port
+Environment=NO_PROXY=nets,subnets
+
+Reload daemon and containerd
+systemctl daemon-reload
+systemctl restart containerd
+
+Test
+crictl --debug pull nginx
+
+Pull kubernetes kubeadm images
+kubeadm config images pull
+
 Initialize the Cluster
 Initialize the Kubernetes cluster on the control plane node using kubeadm
 sudo kubeadm init --pod-network-cidr 10.244.0.0/16
@@ -167,3 +190,5 @@ https://kubernetes.io/docs/setup/production-environment/container-runtimes/
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 https://kubernetes.io/docs/reference/ports-and-protocols/
 https://github.com/flannel-io/flannel/blob/master/Documentation/troubleshooting.md
+https://medium.com/@vivekanand.poojari/installing-kubernetes-behind-a-corporate-proxy-bc5582e43fb8
+https://developpaper.com/containerd-configure-proxy-server/
