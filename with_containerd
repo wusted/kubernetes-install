@@ -144,7 +144,8 @@ systemctl restart firewalld
 firewall-cmd --list-all
 
 
-
+Reboot nodes
+reboot
 
 
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
