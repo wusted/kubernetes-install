@@ -86,6 +86,27 @@ sudo systemctl enable kubelet
 Install ip-route-tc for cluster initialization and worker nodes join
 sudo dnf install -y iproute-tc
 
+Set containerd.sock
+crictl config runtime-endpoint unix:///run/containerd/containerd.sock
+crictl config image-endpoint unix:///run/containerd/containerd.sock
+
+Set Env Proxy if required 
+vim /etc/systemd/system/containerd.service.d/http-proxy.conf
+
+[Service]
+Environment=HTTP_PROXY=http://proxy:port
+Environment=HTTPS_PROXY=http://proxy:port
+Environment=NO_PROXY=subnets for nodes, subnets for pods,127.0.0.1
+
+Reload daemon and containerd
+systemctl daemon-reload
+systemctl restart containerd
+
+Test
+crictl --debug pull nginx
+
+
+
 FIREWALL RULES:
 Disable firewalld:
 sudo systemctl stop firewalld
@@ -115,31 +136,18 @@ firewall-cmd --permanent --add-port=10255/tcp
 firewall-cmd --permanent --add-port=8472/udp
 firewall-cmd --permanent --add-port=8285/udp
 firewall-cmd --permanent --add-port=30000-32767/tcp
+firewall-cmd --permanent --add-port=53/tcp
+firewall-cmd --permanent --add-port=40434/udp
 firewall-cmd --add-masquerade --permanent
 firewall-cmd --reload
 systemctl restart firewalld
 firewall-cmd --list-all
 
+
+
+
+
 2. ONLY ON THE CONTROL PLANE(MASTER) NODE
-
-Set containerd.sock
-crictl config runtime-endpoint unix:///run/containerd/containerd.sock
-crictl config image-endpoint unix:///run/containerd/containerd.sock
-
-Set Env Proxy if required 
-vim /etc/systemd/system/containerd.service.d/http_proxy.conf
-
-[Service]
-Environment=HTTP_PROXY=http://proxy:port
-Environment=HTTPS_PROXY=http://proxy:port
-Environment=NO_PROXY=nets,subnets
-
-Reload daemon and containerd
-systemctl daemon-reload
-systemctl restart containerd
-
-Test
-crictl --debug pull nginx
 
 Pull kubernetes kubeadm images
 kubeadm config images pull
