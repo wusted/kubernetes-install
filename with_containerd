@@ -179,3 +179,9 @@ https://kubernetes.io/docs/reference/ports-and-protocols/
 https://github.com/flannel-io/flannel/blob/master/Documentation/troubleshooting.md
 https://medium.com/@vivekanand.poojari/installing-kubernetes-behind-a-corporate-proxy-bc5582e43fb8
 https://developpaper.com/containerd-configure-proxy-server/
+
+
+Error for crictl pull image
+Is not related to proxy but to firewalld service.
+Need to run logging on firewalld and understand which services, ports needs to be added, or else to consider disabling firewalld.service
+https://www.cyberciti.biz/faq/enable-firewalld-logging-for-denied-packets-on-linux/
