@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo You would a need ks.cfg file to use this script!!
+
 ## Define variables
 # Memory in MiB
 echo -n "VM Memory Size in MiB: (Default 2048) "
