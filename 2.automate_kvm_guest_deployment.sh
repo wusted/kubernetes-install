@@ -33,9 +33,6 @@ read DISK_PATH
 echo -en "Set VM Name: "
 read VM_NAME
 
-# OS Type
-OS_TYPE="linux"
-
 # Virtual Disk Size
 echo -en "Set Virtual Disk Size: "
 read DISK_SIZE
@@ -45,14 +42,13 @@ read DISK_SIZE
 sudo virt-install \
      --name ${VM_NAME} \
      --memory ${MEM_SIZE} \
-     --vpcus {$VCPUS} \
-     --os-type{$OS_TYPE} \
+     --vcpus {$VCPUS} \
+     --os-variant={$OS_VARIANT} \
      --location={$ISO_FILE} \
      --disk path={$DISK_PATH} \
      --disk size={$DISK_SIZE} \
      --network bridge=virbr0 \
      --nographics \
-     --os-variant={$OS_VARIANT} \
      --initrd-inject ks.cfg \
      # Local ks.cfg file
      --extra-args "inst.ks=file:/ks.cfg console=ttyS0" 
