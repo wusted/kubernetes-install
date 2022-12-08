@@ -145,12 +145,33 @@ All the following with k8s user
 ## On the Control Plane Node, Deploy Flannel:
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
+
 ## OR
+
 
 ## On the Control Plane Node, deploy Calico:
 wget https://docs.projectcalico.org/manifests/calico.yaml
 
+## If custom IP Pod Range:
+vim calico.yaml
 
+## Search for the container "calico-node" in env for the Environment Variables, add the following
+
+- name: CALICO_IPV4POOL_CIDR
+  value: IP_RANGE:/SUB
+- name: IP_AUTODETECTION_METHOD
+  value: HOST_NIC
+
+## Save and then deploy
+kubectl apply -f calico.yaml
+
+
+## Verify the Calico POD IP RANGE:
+kubectl get ippools -o yaml | grep cidr
+
+
+## Note: If checking the pods with # kubectl get pods -n kube-system 
+# And then pods are not running, continue to add the nodes and deploy a pod across the cluster. Calico will start after first deployment.
 
 
 ## Join the Worker Nodes to the Cluster
@@ -170,6 +191,36 @@ sudo systemctl enable --now kubelet
 ## In the Control Plane Node, view cluster status (Note: You may have to wait a few moments to allow all nodes to become ready):
 kubectl get nodes
 kubectl get pods --all-namespaces
+
+## If pods are not Running for calico, but the nodes are added and ready, and the Control Plane node is not ready.
+# Deploy a simple manifest to test it.
+
+vim nginx.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+
+:wq
+
+## Deploy that manifest and confirm again:
+kubectl apply -f nginx.yaml
+kubectl get nodes
+kubectl get pods --all-namespaces
+
+
+## Install Calicoctl, if needed, follow steps in:
+https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
+
+## Everything should be working and running now.
 
 
 
