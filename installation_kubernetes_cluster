@@ -245,6 +245,9 @@ https://projectcalico.docs.tigera.io/reference/faq
 https://projectcalico.docs.tigera.io/getting-started/kubernetes/self-managed-onprem/onpremises
 https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
 https://projectcalico.docs.tigera.io/getting-started/kubernetes/requirements
+https://kubernetes.io/docs/tutorials/services/connect-applications-service/
+https://www.linuxtechi.com/how-to-install-kubernetes-cluster-rhel/
+https://kb.novaordis.com/index.php/Kubernetes_Control_Plane_and_Data_Plane_Concepts#:~:text=A%20Kubernetes%20cluster%20consists%20of,known%20as%20the%20control%20plane.
 
 Error for crictl pull image
 Is not related to proxy but to firewalld service.
