@@ -40,7 +40,7 @@ sudo dnf remove -y runc docker containerd podman
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 ## Install containerd:
-sudo dnf install -y containerd
+sudo dnf install -y containerd docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 ## Create default configuration file for containerd:
 sudo mkdir -p /etc/containerd
@@ -53,6 +53,7 @@ sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.t
 
 ## Enable and start containerd to ensure new configuration file usage and Verify that containerd is running:
 for i in enable start status; do systemctl $i containerd.service; done
+for i in enable start status; do systemctl $i docker.service; done
 
 
 ## Disable swap:
