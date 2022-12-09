@@ -149,29 +149,37 @@ kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Doc
 ## OR
 
 
-## On the Control Plane Node, deploy Calico:
-wget https://docs.projectcalico.org/manifests/calico.yaml
+## On the Control Plane Node, deploy Calico as Operator:
 
-## If custom IP Pod Range:
-vim calico.yaml
+## Requirements: Firewalld allow 179 tcp port
+#
+# Prevent NetworkManager from interfering with the interfaces
+vim /etc/NetworkManager/conf.d/calico.conf
+[keyfile]
+unmanaged-devices=interface-name:cali*;interface-name:tunl*;interface-name:vxlan.calico;interface-name:vxlan-v6.calico;interface-name:wireguard.cali;interface-name:wg-v6.cali
+:wq
 
-## Search for the container "calico-node" in env for the Environment Variables, add the following
+# Install the Operator in the Control Plane:
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/tigera-operator.yaml
 
-- name: CALICO_IPV4POOL_CIDR
-  value: IP_RANGE:/SUB
-- name: IP_AUTODETECTION_METHOD
-  value: HOST_NIC
+# Download the custom resources and edit to have the POD IP Pool Range CIDR:
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/custom-resources.yaml -O
 
-## Save and then deploy
-kubectl apply -f calico.yaml
+vim custom-resources.yaml
+Edit ipPools:
+     - 
+       cidr: 10.244.0.0/16
+:wq
 
+# Create the manifest:
+kubectl create -f custom-resources.yaml
 
 ## Verify the Calico POD IP RANGE:
 kubectl get ippools -o yaml | grep cidr
 
+## If will take a few minutes to deploy depending on the cluster size, amount of worker node
+watch kubectl get all -n calico-system -o wide
 
-## Note: If checking the pods with # kubectl get pods -n kube-system 
-# And then pods are not running, continue to add the nodes and deploy a pod across the cluster. Calico will start after first deployment.
 
 
 ## Join the Worker Nodes to the Cluster
@@ -231,7 +239,11 @@ https://kubernetes.io/docs/reference/ports-and-protocols/
 https://github.com/flannel-io/flannel/blob/master/Documentation/troubleshooting.md
 https://medium.com/@vivekanand.poojari/installing-kubernetes-behind-a-corporate-proxy-bc5582e43fb8
 https://developpaper.com/containerd-configure-proxy-server/
-
+https://projectcalico.docs.tigera.io/maintenance/troubleshoot/troubleshooting
+https://projectcalico.docs.tigera.io/reference/faq
+https://projectcalico.docs.tigera.io/getting-started/kubernetes/self-managed-onprem/onpremises
+https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
+https://projectcalico.docs.tigera.io/getting-started/kubernetes/requirements
 
 Error for crictl pull image
 Is not related to proxy but to firewalld service.
