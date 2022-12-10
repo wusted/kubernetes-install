@@ -33,22 +33,22 @@ then
 
 	# Copy Private Keys
 	#echo "Enter a list separated by spaces for the SSH Clients Hostname or IPs that will execute this script to access SSH Target Hosts: "
-	read CLIENTS
+	#read CLIENTS
 
-	for c in $CLIENTS; do ssh $USER_HOST@$c -- mkdir -m 700 /home/$USER_HOST/.ssh/ ; done
-	for c in $CLIENTS; do ssh $USER_HOST@$KEY_HOST -- scp $KEY_PATH/id_rsa $USER_HOST@$c://home/$USER_HOST/.ssh/ ; done
+	#for c in $CLIENTS; do ssh $USER_HOST@$c -- mkdir -m 700 /home/$USER_HOST/.ssh/ ; done
+	#for c in $CLIENTS; do ssh $USER_HOST@$KEY_HOST -- scp $KEY_PATH/id_rsa $USER_HOST@$c://home/$USER_HOST/.ssh/ ; done
 
 	## Copy Public Keys
 	echo "Enter a list separated by spaces for the SSH Target Server Hostname or IPs that will be accesed from SSH Clients: "
 	read HOSTS
 
-	#for h in $HOSTS; do ssh $USER_SSH@$h -- mkdir -m 700 /home/$USER_SSH/.ssh/ ; done
+	for h in $HOSTS; do ssh $USER_SSH@$h -- mkdir -m 700 /home/$USER_SSH/.ssh/ ; done
 	for h in $HOSTS; do scp $USER_HOST@$KEY_HOST://$KEY_PATH/id_rsa.pub $USER_SSH@$h://home/$USER_SSH/.ssh/authorized_keys ; done
 	
 
 	# To-do: use the variables from /etc/hosts instead of manually typing each hostname.
 elif [ $CREATE -eq 0 ]
-then	echo "Enter (1)k8s-master1 OR (2)k8s-worker1 OR (3)k8s-worker2 OR (4)k8s-cp1 OR (5)k8s-w1 OR (6)k8s-w2"
+then	echo "Enter (1)k8s-master1 OR (2)k8s-worker1 OR (3)k8s-worker2 OR (4)k8s-cp1 OR (5)k8s-w1 OR (6)k8s-w2 OR (7)k8s-test1 OR (8)k8s-test2 OR (9)k8s-test3"
 	read NODE
 	
 	if [ $NODE -eq 1 ]
@@ -74,6 +74,20 @@ then	echo "Enter (1)k8s-master1 OR (2)k8s-worker1 OR (3)k8s-worker2 OR (4)k8s-cp
 	elif [ $NODE -eq 6 ]
 	then
 	ssh k8s@k8s-w2
+
+	elif [ $NODE -eq 7 ]
+	then
+	ssh k8s@k8s-test1
+
+	elif [ $NODE -eq 8 ]
+	then
+	ssh k8s@k8s-test2
+
+	elif [ $NODE -eq 9 ]
+	then
+	ssh k8s@k8s-test3
+
+
 
 	fi
 fi	
