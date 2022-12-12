@@ -124,7 +124,21 @@ kubeadm config images pull
 
 ## Initialize the Cluster
 ## Initialize the Kubernetes cluster on the control plane node using kubeadm
-sudo kubeadm init --pod-network-cidr 10.244.0.0/16
+#
+# For Metrics Server later use need to enable bootstrap of Signed Certs for kubelet:
+
+cat << EOF > kubelet-config.yaml 
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+serverTLSBootstrap: true
+EOF
+
+## For more information: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubelet-serving-certs
+
+sudo kubeadm init --pod-network-cidr 10.244.0.0/16 --config kubelet-config.yaml
 
 ## IMPORTANT, COPY(DISPLAY THE "kubeadm join" command displayed it will be needed later)
 ## Set kubectl access:
@@ -136,9 +150,14 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ## CONFIRM POD IP RANGE
 kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}'
 
-## IF NEED TO RESTORE THE CONFIGURATION ON EACH NODE:
+
+
+
+######################### IF NEED TO RESTORE THE CONFIGURATION ON EACH NODE:
 kubeadm reset
 sudo rm -r -f /etc/kubernetes /var/lib/kubelet /var/lib/etcd ~/.kube
+##############################################
+
 
 
 ## CHOOSE BETWEEN FLANNEL(SIMPLE) OR CALICO(POLICY-BASED - USES LINUX ROUTING ) CNI Network Providers
@@ -149,7 +168,7 @@ All the following with k8s user
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
 
-## OR
+#################### OR
 
 
 ## On the Control Plane Node, deploy Calico as Operator:
@@ -226,6 +245,14 @@ spec:
 kubectl apply -f nginx.yaml
 kubectl get nodes
 kubectl get pods --all-namespaces
+
+
+## CONFIRM KUBELET SIGNED CERTS:
+kubectl get csr
+
+## CONDITION will be "Pending" need to be approved:
+kubectl certificate approve <CSR-NAME>
+
 
 
 ## Install Calicoctl, if needed, follow steps in:
