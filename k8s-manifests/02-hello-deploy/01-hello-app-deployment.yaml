@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  namespace: testing
+spec:
+  selector:
+    matchLabels:
+      role: hello
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        role: hello
+    spec:
+      containers:
+      - name: hello
+        image: gcr.io/google-samples/hello-app:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
