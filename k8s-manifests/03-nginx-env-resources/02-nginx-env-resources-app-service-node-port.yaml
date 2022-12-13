@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-hello
+  name: nginx-env
   namespace: testing
+  labels:
+    role: nginx-env
 spec:
   type: NodePort
   ports:
   - port: 8080
     targetPort: 8080
-    nodePort: 30002
+    nodePort: 30004
   selector:
-    role: nginx-hello
+    role: nginx-env
