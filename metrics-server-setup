@@ -1,3 +1,5 @@
+## Mainly to be used with HPA. Horizontal Pod Autoscaler /metrics API Endpoint
+
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 kubectl get --raw /apis/metrics.k8s.io/
 kubectl top pods
