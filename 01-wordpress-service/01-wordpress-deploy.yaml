@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: testing
+  labels:
+    role: wordpress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: wordpress
+  template:
+    metadata:
+      labels:
+        role: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:php7.1-apache
+        ports:
+        - containerPort: 80
