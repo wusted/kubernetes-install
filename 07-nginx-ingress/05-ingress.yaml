@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: testing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: k8s-test2  # curl k8s-test2:[nodePort]
+    http:
+      paths:
+      - path: /
+        pathType: Exact
+        backend:
+          service:
+            name: hello-v1-svc
+            port:
+              number: 80
+
+  - host: k8s-test3  # curl k8s-test3:[nodePort]/v2
+    http:
+      paths:
+      - path: /v2
+        pathType: Exact
+        backend:
+          service:
+            name: hello-v2-svc
+            port:
+              number: 80

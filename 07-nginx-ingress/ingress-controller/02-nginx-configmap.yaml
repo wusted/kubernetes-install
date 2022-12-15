@@ -1,0 +1,7 @@
+## Modifies nginx.conf inside of the Ingress Controller
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: nginx-ingress
+data:
