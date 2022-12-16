@@ -12,9 +12,9 @@ spec:
     - k8s-test3
     secretName: tlstest-secret 
   ingressClassName: nginx
-  rules:
-    - host: k8s-test2  # http  - curl k8s-test2:[nodePort]
-      http:            # https - curl -k https://k8s-test2:[nodePort]
+  rules:               # For web browser use: https://k8s-test2:<nodePort>
+    - host: k8s-test2  # http=  for i in {1..5}; do curl -H "Host: k8s-test2" http://<NodeIP>:<nodePort>; done
+      http:            # https= for i in {1..5}; do curl -k -H "Host: k8s-test2" https://<NodeIP>:<nodePort>; done
         paths:
         - path: /
           pathType: Exact
@@ -23,9 +23,9 @@ spec:
               name: hello-v1-svc
               port:
                 number: 80
-    
-    - host: k8s-test3  # http  - curl k8s-test3:[nodePort]/v2
-      http:            # https - curl -k https://k8s-test3:[nodePort]/v2
+                       # # For web browser use: https://k8s-test3:<nodePort>/v2
+    - host: k8s-test3  # http=  for i in {1..5}; do curl -H "Host: k8s-test3" http://<NodeIP>:<nodePort>/v2; done 
+      http:            # https= for i in {1..5}; do curl -k -H "Host: k8s-test3" https://<NodeIP>:<nodePort>/v2; done
         paths:
         - path: /v2
           pathType: Exact
