@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: testing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - k8s-test2
+    - k8s-test3
+    secretName: tlstest-secret 
+  ingressClassName: nginx
+  rules:
+    - host: k8s-test2  # http  - curl k8s-test2:[nodePort]
+      http:            # https - curl -k https://k8s-test2:[nodePort]
+        paths:
+        - path: /
+          pathType: Exact
+          backend:
+            service:
+              name: hello-v1-svc
+              port:
+                number: 80
+    
+    - host: k8s-test3  # http  - curl k8s-test3:[nodePort]/v2
+      http:            # https - curl -k https://k8s-test3:[nodePort]/v2
+        paths:
+        - path: /v2
+          pathType: Exact
+          backend:
+            service:
+              name: hello-v2-svc
+              port:
+                number: 80
