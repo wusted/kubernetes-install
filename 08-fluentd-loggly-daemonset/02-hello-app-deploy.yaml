@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deploy
+  namespace: testing
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      role: hello-deploy
+  template:
+    metadata:
+      labels:
+        role: hello-deploy
+    spec:
+      containers:
+      - name: hello-deploy
+        image: gcr.io/google-samples/hello-app:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "password"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
