@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: goapi
+  template:
+    metadata:
+      name: goapi
+      labels:
+        app: goapi
+    spec:
+      containers:
+      - name: golang-api
+        image: christianhxc/golang-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: goapi
+spec:
+  selector:
+    app: goapi
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goapi-testing
+spec:
+  containers:
+  - name: testing
+    image: alpine:3.12.0
+    args: [/bin/sh, -c,
+            'i=0; while true; do wget -qO- --timeout=1 http://goapi; i=$((i+1)); sleep 1; done']
