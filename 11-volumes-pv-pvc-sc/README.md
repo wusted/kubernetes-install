@@ -1,8 +1,12 @@
+# Intro
+
 Used mainly to automate Block Volumes creation and usage for Kubernetes Clusters in Cloud Providers through a StorageClass that interacts with Cloud Provider's API to get and create Persistent Volumes in Kubernetes by using a Persistent Volume Claim that is mounted in a Pod.
 
 PVC is similar to what a Deployment is to a Pod. A Pool of Volumes created upon request.
 
 ---
+
+# Setup
 
 In this Lab theres a first set of 2 manifests, for Cloud Environments.
 And a second set with manifests for setting up a StorageClass with NFS to emulate On-Prem the functionality on Cloud.
