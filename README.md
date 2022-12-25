@@ -25,7 +25,7 @@ Additional Projects and Kubernetes stuff
 is constantly being added :)
 
 
-Author: Jean Pereira
+author: Jean Pereira
 ```      
 jeankpayales444@gmail.com
 ```
