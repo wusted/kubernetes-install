@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: node-mongo
+  name: node-mongo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-mongo
+  template:
+    metadata:
+      labels:
+        app: node-mongo
+        role: node-mongo
+    spec:
+      containers:
+        - env:
+            - name: LCB_DATABASE_URI
+              value: mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/member-management
+          image: # REPLACE_WITH_CUSTOMER_NODEJS_APP husseingalal/letschat2
+          imagePullPolicy: IfNotPresent
+          name: node-mongo
+          ports:
+            - containerPort: 8080
+              protocol: TCP
