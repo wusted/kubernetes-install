@@ -9,6 +9,7 @@ This Repo contains
 (Continuously being improved)
 
 3. VIM Settings for YAML files.
+
 4. Different Kubernetes Addons/CRDs setup, 
 for example Metrics API for HPA, 
 and /metrics/resource for Prometheus.
@@ -16,6 +17,8 @@ and /metrics/resource for Prometheus.
 5. Directories with YAML Manifest 
 for different Kubernetes APIs and Components. 
 With a README.md (Work in Progress.)
+
+6. A few Helm Charts.
 ```
 
 Additional Projects and Kubernetes is constantly being added :)
