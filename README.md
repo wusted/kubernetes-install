@@ -24,6 +24,8 @@ With a README.md (Work in Progress.)
 Additional Projects and Kubernetes stuff 
 is constantly being added :)
 
+
+Author: Jean Pereira
 ```      
-Jean Pereira - jeankpayales444@gmail.com
+jeankpayales444@gmail.com
 ```
