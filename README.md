@@ -21,6 +21,8 @@ With a README.md (Work in Progress.)
 6. A few Helm Charts.
 ```
 
-Additional Projects and Kubernetes is constantly being added :)
-Sign:
-      Jean Pereira - jeankpayales444@gmail.com
+Additional Projects and Kubernetes stuff 
+is constantly being added :)
+
+```      Jean Pereira - jeankpayales444@gmail.com
+```
