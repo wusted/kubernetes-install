@@ -1,0 +1,13 @@
+#cloud-config
+# Documentation:
+# https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+package_update: true
+packages:
+  - docker.io
+write_files:
+  - path: /root/index.html
+    content: |
+      Docker container running Nginx, created in DigitalOcean with Terrafrom
+runcmd:
+  - cd /root
+  - docker run -d -v /root/index.html:/usr/share/nginx/html/index.html -p 80:80 nginx
