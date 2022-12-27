@@ -25,3 +25,4 @@ provider "circleci" {
   api_token = "${var.circleci_token}"
   vcs_type = "github"
   organization = "wusted"
+}
