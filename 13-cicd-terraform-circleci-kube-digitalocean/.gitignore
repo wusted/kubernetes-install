@@ -6,5 +6,4 @@ id_rsa
 kubeconfig.yaml
 .terraform.lock.hcl
 .terraform.lock
-.terraform.lock.hcl
 .terraform.tfstate.lock.info
