@@ -1,5 +1,5 @@
 variable "do_token" {}
-# variable "circleci_token" {}
+variable "circleci_token" {}
 
 
 terraform {
