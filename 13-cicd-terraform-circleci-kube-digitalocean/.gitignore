@@ -1,0 +1,6 @@
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+id_rsa.pub
+id_rsa
+kubeconfig.yaml
