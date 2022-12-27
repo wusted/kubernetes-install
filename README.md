@@ -10,6 +10,8 @@ This Repo contains
 
 3. VIM Settings for YAML files.
 
+4. Terraform Files for Cloud Provisioners creation.
+
 4. Different Kubernetes Addons/CRDs setup, 
 for example Metrics API for HPA, 
 and /metrics/resource for Prometheus.
