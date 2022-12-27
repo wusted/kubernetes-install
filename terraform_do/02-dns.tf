@@ -1,15 +1,15 @@
 ## Create a new domain for the Droplet
 #
 
-resource "digitalocean_domain" "[domain_name]" {
-  name = "jean"
+resource "digitalocean_domain" "pereirajean" {
+  name = "pereirajean.com"
 }
 
-# Add a record to the domain
+# Add a record sub to the domain
 resource "digitalocean_record" "www" {
-  domain = "${digitalocean_domain.jean.name}"
+  domain = "${digitalocean_domain.pereirajean.name}"
   type   = "A"
-  name   = "[record_name]"
+  name   = "test"
   ttl    = "30"
   value  = "${digitalocean_droplet.web.ipv4_address}"
 }
