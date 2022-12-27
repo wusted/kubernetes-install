@@ -1,8 +1,17 @@
 variable "do_token" {}
 variable "circleci_token" {}
 
+terraform {
+    required_providers {
+        digitalocean = {
+            source = "digitalocean/digitalocean"
+            version = "~> 2.0"
+        }
+    }
+}
+
 # Configure the DigitalOcean Provider
-provider "digitalocean/digitalocean" {
+provider "digitalocean" {
     token = "${var.do_token}"
 }
 
