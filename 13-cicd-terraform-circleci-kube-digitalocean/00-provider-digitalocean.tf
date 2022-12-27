@@ -1,8 +1,8 @@
-variable "digitalocean_token" {}
+variable "do_token" {}
 variable "circleci_token" {}
 
 # Configure the DigitalOcean Provider
-provider "digitalocean" {
+provider "digitalocean/digitalocean" {
     token = "${var.do_token}"
 }
 
