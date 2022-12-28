@@ -1,4 +1,6 @@
-.terraform/
+**/.terraform/*
+*.tfstate
+*.tfstate.*
 terraform.tfstate
 terraform.tfstate.backup
 id_rsa.pub
@@ -7,3 +9,5 @@ kubeconfig.yaml
 .terraform.lock
 .terraform.tfstate.lock.info
 .terraform.lock.hcl
+*.log
+*.terraform.lock.hcl
