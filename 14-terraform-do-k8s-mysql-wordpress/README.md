@@ -64,9 +64,6 @@ and/or
 - In Kubernetes Cluster:  
 Kubernetes Operator/Scheduler should create a new pod, due to Deployment or StatefulSet applied desired state.  
   
-To replace the one deleted in both cases.  
-  
-7. Volume data should remain persistent and changes made in previous node or pods,  
-should still exist.
-Confirm by accessing WordPress again and check the Posts.
-Or accesing the main site that should show the Post.
+7. Volume data should remain persistent and changes made in previous node or pods, should still exist.  
+Confirm by accessing WordPress again and check the Posts.  
+Or by accesing the main site that should show the Post.
