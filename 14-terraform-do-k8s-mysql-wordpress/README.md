@@ -9,8 +9,6 @@ Backend(MYSQL)+ Frontend(WordPress)
 
 # Usage.
 
-# Step 1 and 2: In this Repo:
-
 1. Deploy Cloud Infrastructure.
 - Kubernetes Cluster
 - Load Balancer
@@ -29,8 +27,6 @@ $ terraform apply
 ```
 $ kubectl --kubeconfig=kubeconfig.yaml get nodes
 ```
-
-# Step 3 and 4: In this Repo:
 
 3. Apply the manifests, to create:
 - MySQL StatefulSet with one PVC from Cloud StorageClass
