@@ -41,6 +41,10 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+          
+      ## This is the default.
+      ## If preferred NOT to define a PVC in another manifest.
+      ## But call the StorageClass directly in this manifest.
   volumeClaimTemplates:
   - metadata:
       name: mysql-persistent-storage
@@ -50,3 +54,11 @@ spec:
       resources:
         requests:
           storage: 5Gi
+
+      ## This is optional.
+      ## If preferred to define a PVC in another manifest.
+      # volumes:
+      # - name: mysql-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: mysql-pvc
+      
