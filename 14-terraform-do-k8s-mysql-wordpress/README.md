@@ -50,9 +50,11 @@ Edit the Post Title with a custom one.
 5. Destroy/Delete:  
 - In Cloud Provider:
 Destroy the Worker Node.  
-and/or 
+  
+and/or  
 - In Kubernetes Cluster:  
 Delete the Pod(s)(not the Deployment or StatefulSet) that is using the Persistent Volume through the PVC.
+
 
 6. Self-Healing/Recover:  
 - In Cloud Provider:  
