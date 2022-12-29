@@ -1,6 +1,6 @@
 # Terraform deployment
 Backend(MYSQL)+ Frontend(WordPress)  
-Goal is to prove the Kubernetes/Microservices  
+Goal is to test the Kubernetes/Microservices:  
 Immutable and Disposable approach of Nodes and Pods.
 
 # Pre-requisites
@@ -39,13 +39,12 @@ $ kubectl --kubeconfig=kubeconfig.yaml get nodes
 ```
 $ kubectl -kubeconfig=kubeconfig.yaml apply -f ./kubernetes/
 ```
-Connectivity can be tested with 
-curl or in a web browser to the 
-LoadBalancerIP or DNS Domain A Record.
+Connectivity can be tested with:  
+curl or web browser to the LoadBalancerIP or DNS Domain A Record.
 
-4. Access the Site in the Web Browser
-Create a site and user to be stored in the DB Persistent Volume.
-Login with the created credentials and go to Posts.
+4. Access the Site in the Web Browser  
+Create a site and user to be stored in the DB Persistent Volume.  
+Login with the created credentials and go to Posts.  
 Edit the Post Title with a custom one.
 
 5. 
@@ -57,16 +56,17 @@ Delete the Pod(s)(not the Deployment or StatefulSet)
 that is using the Persistent Volume through the PVC.
 
 6. 
-- In Cloud Provider: 
-Kubernetes Cluster Service should create a new Node.
-and/or
-- In Kubernetes Cluster:
-Kubernetes Operator/Scheduler should create a new pod,
-due to Deployment or StatefulSet applied desired state.
-
-To replace the one deleted in both cases.
-
-7. Volume should remain persistent and changes made
-in previous node or pods, should still exist.
+- In Cloud Provider:  
+Kubernetes Cluster Service should create a new Node.  
+  
+and/or  
+- In Kubernetes Cluster:  
+Kubernetes Operator/Scheduler should create a new pod,  
+due to Deployment or StatefulSet applied desired state.  
+  
+To replace the one deleted in both cases.  
+  
+7. Volume data should remain persistent and changes made in previous node or pods,  
+should still exist.
 Confirm by accessing WordPress again and check the Posts.
 Or accesing the main site that should show the Post.
