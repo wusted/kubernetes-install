@@ -1,6 +1,6 @@
 # Terraform deployment
-Backend(MYSQL)+ Frontend(WordPress)
-Goal is to prove the Kubernetes/Microservices
+Backend(MYSQL)+ Frontend(WordPress)  
+Goal is to prove the Kubernetes/Microservices  
 Immutable and Disposable approach of Nodes and Pods.
 
 # Pre-requisites
