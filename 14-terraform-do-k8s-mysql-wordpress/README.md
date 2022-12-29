@@ -47,14 +47,14 @@ Create a site and user to be stored in the DB Persistent Volume.
 Login with the created credentials and go to Posts.  
 Edit the Post Title with a custom one.
 
-5. 
+5. Destroy/Delete:  
 - In Cloud Provider:
-Destroy the Worker Node. 
+Destroy the Worker Node.  
 and/or 
 - In Kubernetes Cluster:  
 Delete the Pod(s)(not the Deployment or StatefulSet) that is using the Persistent Volume through the PVC.
 
-6. 
+6. Self-Healing/Recover:  
 - In Cloud Provider:  
 Kubernetes Cluster Service should create a new Node.  
   
