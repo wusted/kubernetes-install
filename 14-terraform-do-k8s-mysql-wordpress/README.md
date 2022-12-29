@@ -51,9 +51,8 @@ Edit the Post Title with a custom one.
 - In Cloud Provider:
 Destroy the Worker Node. 
 and/or 
-- In Kubernetes Cluster:
-Delete the Pod(s)(not the Deployment or StatefulSet)
-that is using the Persistent Volume through the PVC.
+- In Kubernetes Cluster:  
+Delete the Pod(s)(not the Deployment or StatefulSet) that is using the Persistent Volume through the PVC.
 
 6. 
 - In Cloud Provider:  
@@ -61,8 +60,7 @@ Kubernetes Cluster Service should create a new Node.
   
 and/or  
 - In Kubernetes Cluster:  
-Kubernetes Operator/Scheduler should create a new pod,  
-due to Deployment or StatefulSet applied desired state.  
+Kubernetes Operator/Scheduler should create a new pod, due to Deployment or StatefulSet applied desired state.  
   
 To replace the one deleted in both cases.  
   
