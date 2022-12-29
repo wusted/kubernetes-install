@@ -1,5 +1,5 @@
 # Terraform deployment
-# Backend(MYSQL)+ Frontend(WordPress)
+Backend(MYSQL)+ Frontend(WordPress)
 
 # Pre-requisites
 - Use DigitalOcean Cloud Provider.
@@ -14,7 +14,7 @@
 1. Deploy Cloud Infrastructure.
 - Kubernetes Cluster
 - Load Balancer
-- CircleCI
+- Block Volume
 - Output File
 - DNS Records and Domain
 
@@ -33,7 +33,7 @@ $ kubectl --kubeconfig=kubeconfig.yaml get nodes
 # Step 3 and 4: In this Repo:
 
 3. Apply the manifests, to create:
-- MySQL StatefulSet with one PVC from StorageClass
+- MySQL StatefulSet with one PVC from Cloud StorageClass
 - ClusterIP Service for MySQL p-3306-> Wordpress
 - WordPress Deployment
 - nodePort Service for WordPress p-30000-> LoadBalancer:80
