@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+  labels:
+    db: mysql
+spec:
+  ports:
+    - port: 3306
+  selector:
+    db: mysql
+    tier: backend
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    db: mysql
+spec:
+  selector:
+    matchLabels:
+      db: mysql
+      tier: backend
+  template:
+    metadata:
+      labels:
+        db: mysql
+        tier: backend
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password1234 # For Real Usage, use a secret instead.
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-persistent-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: do-block-storage
+      resources:
+        requests:
+          storage: 5Gi
