@@ -128,17 +128,31 @@ kubeadm config images pull
 # For Metrics Server later use need to enable bootstrap of Signed Certs for kubelet:
 
 cat << EOF > kubelet-config.yaml 
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: ClusterConfiguration
----
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 serverTLSBootstrap: true
+---
+apiServer:
+  timeoutForControlPlane: 4m0s
+apiVersion: kubeadm.k8s.io/v1beta3
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controllerManager: {}
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+kind: ClusterConfiguration
+kubernetesVersion: v1.26.0
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+scheduler: {}
 EOF
 
 ## For more information: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubelet-serving-certs
 
-sudo kubeadm init --pod-network-cidr 10.244.0.0/16 --config kubelet-config.yaml
+sudo kubeadm init --config kubelet-config.yaml
 
 ## IMPORTANT, COPY(DISPLAY THE "kubeadm join" command displayed it will be needed later)
 ## Set kubectl access:
