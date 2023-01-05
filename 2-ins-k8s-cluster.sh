@@ -154,8 +154,9 @@ kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}'
 
 
 ######################### IF NEED TO RESTORE THE CONFIGURATION ON EACH NODE:
-kubeadm reset
-sudo rm -r -f /etc/kubernetes /var/lib/kubelet /var/lib/etcd ~/.kube
+sudo kubeadm reset -f
+sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
+systemctl restart docker
 ##############################################
 
 
