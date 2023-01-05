@@ -103,7 +103,7 @@ sudo systemctl disable firewalld
 
 ## ON CONTROL PLAN(MASTER) NODE, INCLUDES CALICO AND FLANNEL PORTS.
 ## FOR FURTHER INFO: https://projectcalico.docs.tigera.io/getting-started/kubernetes/requirements AND https://github.com/coreos/coreos-kubernetes/blob/master/Documentation/kubernetes-networking.md
-for i in 6443/tcp 2379-2380/tcp 10250-10252/tcp 10259/tcp 10257/tcp 10255/tcp 8472/udp 8285/udp 179/tcp 5473/tcp 5473/udp; do firewall-cmd --permanent --add-port=$i; done
+for i in 6443/tcp 6443/udp 443/tcp 443/udp 2379-2380/tcp 10250-10252/tcp 10259/tcp 10257/tcp 10255/tcp 8472/udp 8285/udp 179/tcp 5473/tcp 5473/udp; do firewall-cmd --permanent --add-port=$i; done
 firewall-cmd --add-masquerade --permanent
 firewall-cmd --reload
 systemctl restart firewalld
