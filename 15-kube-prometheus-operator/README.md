@@ -1,7 +1,10 @@
 ### THIS IS PROJECT IS DEVELOPED AND MANTAINED BY:  
-https://prometheus-operator.dev/docs/prologue/quick-start/
+https://prometheus-operator.dev/docs/prologue/quick-start/  
 https://github.com/prometheus-operator  
 https://github.com/prometheus-operator/kube-prometheus  
+
+# If used with Metric API for HPA, then first deploy this:  
+https://github.com/wusted/kubernetes-install/blob/main/2.1-metrics-server-setup
 
 # Added to this Repo for convenience and personal usage
 
