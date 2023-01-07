@@ -5,8 +5,8 @@ kubectl get --raw /apis/metrics.k8s.io/
 kubectl top pods
 kubectl top nodes
 
-If needed, for kubelet certificate.
-https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubelet-serving-certs
+# If needed, for kubelet certificate.
+# https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubelet-serving-certs
 
-Manifest source:
-https://github.com/kubernetes-sigs/metrics-server
+# Manifest source:
+# https://github.com/kubernetes-sigs/metrics-server
