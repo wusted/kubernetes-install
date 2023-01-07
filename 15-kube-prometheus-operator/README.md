@@ -1,3 +1,10 @@
+### THIS IS PROJECT IS DEVELOPED AND MANTAINED BY:  
+# https://prometheus-operator.dev/docs/prologue/quick-start/
+# https://github.com/prometheus-operator  
+# https://github.com/prometheus-operator/kube-prometheus  
+
+# Added to this Repo for convenience and personal usage
+
 # kube-prometheus
 
 [![Build Status](https://github.com/prometheus-operator/kube-prometheus/workflows/ci/badge.svg)](https://github.com/prometheus-operator/kube-prometheus/actions)
