@@ -50,7 +50,7 @@ spec:
       name: persistent
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: # REPLACE_WITH_CUSTOM_SC
+      storageClassName: nfs-client  # REPLACE_WITH_CUSTOM_SC
       resources:
         requests:
           storage: 1Gi
