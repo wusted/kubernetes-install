@@ -3,7 +3,10 @@
 # Mounted in /data/db inside of each container to store the MongoDB Data.
 
 ```
-$ kubectl stern mongo
+$ kubectl stern mongo  
+or  
+$ stern mongo # Depends on installation with brew, or on kubectl
+
 ```
 
 # Access a Pod to manage the DB
