@@ -31,8 +31,11 @@ kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d >
 
 a. Add the credentials
 ```
-kubectl config set-credentials developer-user --client=developer-user.key \  
+kubectl config set-credentials developer-user --client-key=developer-user.key \  
 --client-certificate=developer-user.crt --embed-certs=true
+```  
+```
+kubectl config get-users
 ```
   
 b. Set a new context to use the credentials  
