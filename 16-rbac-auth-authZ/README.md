@@ -12,7 +12,8 @@ openssl req -new -key developer-user.key -out developer-user.csr
 kubectl apply -f 01-csr.yaml
 ```
   
-3. Get the certificate  
+
+3. Approve and get the crt file. 
 
 a. Approve certificate signing request  
 ```
