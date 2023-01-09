@@ -26,7 +26,6 @@ kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d >
 ```
 
 4. Add to kubeconfig, create the user to authenticate with the K8s API  
-
 4. 1. Add the credentials
 ```
 kubectl config set-credentials developer-user --client=developer-user.key \  
