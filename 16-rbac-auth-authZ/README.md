@@ -40,7 +40,7 @@ kubectl config get-users
   
 b. Set a new context to use the credentials  
 ```
-kubectl config set-context developer-user --cluster=kubernetes --user=developer-user
+kubectl config set-context developer-user --cluster=kubernetes --user=developer-user --namespace=development
 ```
   
 c. Change to the new context to the test the user
