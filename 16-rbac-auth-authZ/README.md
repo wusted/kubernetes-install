@@ -13,7 +13,7 @@ openssl req -new -key developer-user.key -out developer-user.csr
 kubectl apply -f 01-csr.yaml
 ```
   
-
+  
 3. Get the certificate  
 
 a. Approve certificate signing request  
@@ -28,7 +28,7 @@ b. Get the certificate
 kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d > developer-user.crt
 ```
   
-
+  
 4. Add to kubeconfig, create the user to authenticate with the K8s API  
 
 a. Add the credentials
