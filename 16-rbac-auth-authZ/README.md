@@ -3,8 +3,8 @@
 * Credentials  
 1. Create Private Key  
 ```
-openssl genrsa -out myuser.key 2048  
-openssl req -new -key myuser.key -out myuser.csr
+openssl genrsa -out developer-user.key 2048  
+openssl req -new -key developer-user.key -out developer-user.csr
 ```
   
 2. Create certificate signing request  
@@ -25,9 +25,21 @@ kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d >
 ```
 
 4. Add to kubeconfig, create the user for authenticate with the K8s API  
-```
-kubectl config set-credentials
 
+1. Add the credentials
+```
+kubectl config set-credentials developer-user --client=developer-user.key \  
+--client-certificate=developer-user.crt --embed-certs=true
+```
+  
+2. Set a new context to use the credentials  
+```
+kubectl config set-context developer-user --cluster=kubernetes --user=developer-user
+```
+  
+3. Change to the new context to the test the user
+```
+kubectl config use-context developer-user
 
 # Authorization - RBAC - ClusterRoles/Roles and ClusterRoleBindings/RoleBindings  
 
