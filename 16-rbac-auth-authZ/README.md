@@ -63,7 +63,8 @@ kubectl --kubeconfig jean-kubeconfig config get-users
   
 b. Set a new context to use the credentials  
 ```
-kubectl --kubeconfig jean-kubeconfig config set-context jean --cluster=kubernetes --user=jean```
+kubectl --kubeconfig jean-kubeconfig config set-context jean --cluster=kubernetes --user=jean
+```
 ```
 kubectl --kubeconfig jean-kubeconfig config get-contexts
 ```
