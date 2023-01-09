@@ -13,7 +13,7 @@ kubectl apply -f 01-csr.yaml
 ```
   
 3. Get the certificate  
-1. Approve certificate signing request  
+3. 1. Approve certificate signing request  
 ```
 kubectl get csr  
 
@@ -25,20 +25,20 @@ kubectl certificate approve developer-user
 kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d > developer-user.crt
 ```
 
-4. Add to kubeconfig, create the user for authenticate with the K8s API  
+4. Add to kubeconfig, create the user to authenticate with the K8s API  
 
-1. Add the credentials
+4. 1. Add the credentials
 ```
 kubectl config set-credentials developer-user --client=developer-user.key \  
 --client-certificate=developer-user.crt --embed-certs=true
 ```
   
-2. Set a new context to use the credentials  
+4. 2. Set a new context to use the credentials  
 ```
 kubectl config set-context developer-user --cluster=kubernetes --user=developer-user
 ```
   
-3. Change to the new context to the test the user
+4. 3. Change to the new context to the test the user
 ```
 kubectl config use-context developer-user
 ```
