@@ -42,10 +42,16 @@ b. Set a new context to use the credentials
 ```
 kubectl config set-context developer-user --cluster=kubernetes --user=developer-user --namespace=development
 ```
+```
+kubectl config get-contexts
+```
   
 c. Change to the new context to the test the user
 ```
 kubectl config use-context developer-user
+```
+```
+kubectl config current-context
 ```
 
 # Authorization - RBAC - ClusterRoles/Roles and ClusterRoleBindings/RoleBindings  
