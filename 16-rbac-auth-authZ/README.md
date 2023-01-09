@@ -3,13 +3,20 @@
 * Credentials  
 1. Create Private Key  
 ```
-openssl genrsa -out developer-user.key 2048  
-openssl req -new -key developer-user.key -out developer-user.csr
+openssl genpkey -out jean.key -algorithm ed25519
+openssl req -new -key jean.key -out jean.csr -subj '/CN=jean/O=edit'
 ```
   
-2. Create certificate signing request  
+2. Encode the CSR 
+```
+cat jean.csr | base64 | tr -d "\n"
+```
+
+2. Create certificate signing request K8s Object. 
 ``` 
 kubectl apply -f 01-csr.yaml
+
+# Important, place the base64 encoded string in the spec.request filed.
 ```
   
 
@@ -24,31 +31,46 @@ kubectl certificate approve developer-user
   
 b. Get the certificate  
 ```
+kubectl get csr/jean -o yaml | less
+```
+```
 kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d > developer-user.crt
 ```
     
-4. Add to kubeconfig, create the user to authenticate with the K8s API  
+4. Create the kubeconfig file, create the user to authenticate with the K8s API  
+
+
+a. Make a copy an existing kubeconfig for the cluster
+```
+cp ~/.kube/config jean-kubeconfig
+OR
+cp /etc/kubernetes/admin.conf jean-kubeconfig
+sudo chown $(id -u):$(id -g) jean-kubeconfig
+```
+
+b. Open jean-kubeconfig and delete all fields, leave only the cluster fields:  
+- apiVersion, clusters, clusters.cluster, clusters.cluster.certificate-authority-data,  
+- clusters.cluster.server, clusters.name, 
+
 
 a. Add the credentials
 ```
-kubectl config set-credentials developer-user --client-key=developer-user.key \  
---client-certificate=developer-user.crt --embed-certs=true
+kubectl --kubeconfig jean-kubeconfig config set-credentials jean --client-key=jean.key --client-certificate=jean.crt --embed-certs=true
 ```  
 ```
-kubectl config get-users
+kubectl --kubeconfig jean-kubeconfig config get-users
 ```
   
 b. Set a new context to use the credentials  
 ```
-kubectl config set-context developer-user --cluster=kubernetes --user=developer-user --namespace=development
+kubectl --kubeconfig jean-kubeconfig config set-context jean --cluster=kubernetes --user=jean```
 ```
-```
-kubectl config get-contexts
+kubectl --kubeconfig jean-kubeconfig config get-contexts
 ```
   
 c. Change to the new context to the test the user
 ```
-kubectl config use-context developer-user
+kubectl --kubeconfig jean-kubeconfig config use-context jean
 ```
 ```
 kubectl config current-context
