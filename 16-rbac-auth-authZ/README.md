@@ -1,4 +1,4 @@
-# Authentication -  Credentials and/or ServiceAccounts  
+# Authentication -  Credentials 
   
 * Credentials  
 1. Create Private Key  
@@ -123,6 +123,9 @@ kubectl --kubeconfig jean-kubeconfig get ns
 Error from server (Forbidden): namespaces is forbidden: User "developer-user" cannot list resource "namespaces" in API group "" at the cluster scope
 ```
 
+# ServiceAccounts, for Pods and Services.
+
+
 References:
-https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
+https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user  
 https://kubernetes.io/docs/setup/best-practices/certificates/
