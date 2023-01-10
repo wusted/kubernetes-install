@@ -3,13 +3,19 @@
 * Credentials  
 1. Create Private Key  
 ```
-openssl genpkey -out jean.key -algorithm ed25519
-openssl req -new -key jean.key -out jean.csr -subj '/CN=jean/O=edit'
+openssl genpkey -out developer-user.key -algorithm ed25519
+openssl req -new -key developer-user.key -out developer-user.csr -subj '/CN=developer-user/O=edit'
+```
+  OR
+  
+```
+openssl genrsa -out developer-user.key 2048
+openssl req -new -key developer-user.key -out developer-user.csr -subj '/CN=developer-user/O=edit'
 ```
   
 2. Encode the CSR 
 ```
-cat jean.csr | base64 | tr -d "\n"
+cat developer-user.csr | base64 | tr -d "\n"
 ```
 
 2. Create certificate signing request K8s Object. 
@@ -31,7 +37,7 @@ kubectl certificate approve developer-user
   
 b. Get the certificate  
 ```
-kubectl get csr/jean -o yaml | less
+kubectl get csr/developer-user -o yaml | less
 ```
 ```
 kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d > developer-user.crt
@@ -40,7 +46,8 @@ kubectl get csr developer-user -o jsonpath='{.status.certificate}' | base64 -d >
 4. Create the kubeconfig file, create the user to authenticate with the K8s API  
 
 
-a. Make a copy an existing kubeconfig for the cluster
+a. Make a copy of an existing kubeconfig file for the cluster, the copy will be provided to the new user.  
+(This can also be done on the current ~/.kube/config file used, but for isolation of access recommended to create a new file for new user.)
 ```
 cp ~/.kube/config jean-kubeconfig
 OR
@@ -53,15 +60,15 @@ b. Open jean-kubeconfig and delete all fields, leave only the cluster fields:
 - clusters.cluster.server, clusters.name, 
 
 
-a. Add the credentials
+c. Add the credentials
 ```
-kubectl --kubeconfig jean-kubeconfig config set-credentials developer-user --client-key=jean.key --client-certificate=jean.crt --embed-certs=true
+kubectl --kubeconfig jean-kubeconfig config set-credentials developer-user --client-key=jean.key --client-certificate=developer-user.crt --embed-certs=true
 ```  
 ```
 kubectl --kubeconfig jean-kubeconfig config get-users
 ```
   
-b. Set a new context to use the credentials  
+d. Set a new context to use the credentials  
 ```
 kubectl --kubeconfig jean-kubeconfig config set-context developer-user --cluster=kubernetes --user=developer-user --namespace=development
 ```
@@ -69,7 +76,7 @@ kubectl --kubeconfig jean-kubeconfig config set-context developer-user --cluster
 kubectl --kubeconfig jean-kubeconfig config get-contexts
 ```
   
-c. Change to the new context to the test the user
+e. Change to the new context to the test the user
 ```
 kubectl --kubeconfig jean-kubeconfig config use-context developer-user
 ```
@@ -78,7 +85,7 @@ kubectl --kubeconfig jean-kubeconfig config current-context
 ```
 
 
-d. Confirm no permissions to get,read,execute on resources.
+f. Confirm no permissions to get,read,execute on resources.
 ```
 kubectl --kubeconfig jean-kubeconfig.yaml get nodes  
   
