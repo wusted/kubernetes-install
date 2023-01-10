@@ -113,7 +113,7 @@ kubectl --kubeconfig jean-kubeconfig run nginx --image=nginx
 kubectl --kubeconfig jean-kubeconfig get pods
 ```
 
-2. Confirm that other resoruces are not accessible (to access each resource, those need to be added in the role or cluster along with the verb/action and namespace)
+2. Confirm that other resources are not accessible (to access each resource, those need to be added in the role or clusterrole along with the verb/action and namespace)
 
 ```
 kubectl --kubeconfig jean-kubeconfig get nodes  
