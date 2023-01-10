@@ -125,6 +125,34 @@ Error from server (Forbidden): namespaces is forbidden: User "developer-user" ca
 
 # ServiceAccounts, for Pods and Services.
 
+1. Apply the manifest with the ServiceAccount, ClusterRole, ClusterRoleBinding and Pod.
+```
+kubectl apply -f 04-serviceaccount-pod.yaml
+```
+```
+kubectl get -f 04-serviceaccount-pod.yaml
+```
+
+2. Access the Pod logs to see the API request output:
+
+```
+kubectl logs -n development dashboard-cluster-role-pod
+```
+
+3. Optional to access the Pod to check the Envs and replicate the API request.
+
+```
+kubectl exec -n development -it dashboard-cluster-role-pod -- /bin/bash
+```
+
+```
+root@dashboard-cluster-role-pod:/# env | grep KUBERNETES
+
+root@dashboard-cluster-role-pod:/# curl https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}/apis/apps/v1 --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+```
+
+- Note: The endpoint https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}/apis/apps/v1 can be modified to get other resources, like pods, namespaces, deployments, or any other object in the K8S API, since the ClusterRole resource is set to "[*]" which is everything. This can be also modified to limit the specific resources that can be accessed.
+
 
 References:
 https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user  
