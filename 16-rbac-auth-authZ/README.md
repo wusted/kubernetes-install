@@ -63,7 +63,7 @@ kubectl --kubeconfig jean-kubeconfig config get-users
   
 b. Set a new context to use the credentials  
 ```
-kubectl --kubeconfig jean-kubeconfig config set-context developer-user --cluster=kubernetes --user=jean --namespace=development
+kubectl --kubeconfig jean-kubeconfig config set-context developer-user --cluster=kubernetes --user=developer-user --namespace=development
 ```
 ```
 kubectl --kubeconfig jean-kubeconfig config get-contexts
@@ -74,7 +74,15 @@ c. Change to the new context to the test the user
 kubectl --kubeconfig jean-kubeconfig config use-context developer-user
 ```
 ```
-kubectl config current-context
+kubectl --kubeconfig jean-kubeconfig config current-context
+```
+
+
+d. Confirm no permissions to get,read,execute on resources.
+```
+kubectl --kubeconfig jean-kubeconfig.yaml  get nodes  
+  
+Error from server (Forbidden): nodes is forbidden: User "jean" cannot list resource "nodes" in API group "" at the cluster scope
 ```
 
 # Authorization - RBAC - ClusterRoles/Roles and ClusterRoleBindings/RoleBindings  
