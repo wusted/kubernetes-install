@@ -3,7 +3,7 @@ kind: CertificateSigningRequest
 metadata:
   name: developer-user
 spec: # Replace 'request' wit csr file content in base64 # cat developer-user.csr | base64 | tr -d "\n"
-  request: REPLACE_WITH_BASE64
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlHZE1GRUNBUUF3SGpFTk1Bc0dBMVVFQXd3RWFtVmhiakVOTUFzR0ExVUVDZ3dFWldScGREQXFNQVVHQXl0bApjQU1oQUROQUFxS0RJcks1d3pKOG80eVJSSU1lMkdUUFJMN3ZYUjZ0OFBmL3k5TnJvQUF3QlFZREsyVndBMEVBCmNMVUNIczd0YmNQNXpMUUh6T2NwdEdVZkRaWVR4TDRsaXpabS9kTmI2N1h1N2VCeGJLUTFOMmptc0M1QjI5Y0QKR3diL2hQd1JsZGYrbm1WTlNFVm9Bdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLQo=
   signerName: kubernetes.io/kube-apiserver-client
   expirationSeconds: 86400  # one day
   usages:

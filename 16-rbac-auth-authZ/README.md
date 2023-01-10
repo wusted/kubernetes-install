@@ -55,7 +55,7 @@ b. Open jean-kubeconfig and delete all fields, leave only the cluster fields:
 
 a. Add the credentials
 ```
-kubectl --kubeconfig jean-kubeconfig config set-credentials jean --client-key=jean.key --client-certificate=jean.crt --embed-certs=true
+kubectl --kubeconfig jean-kubeconfig config set-credentials developer-user --client-key=jean.key --client-certificate=jean.crt --embed-certs=true
 ```  
 ```
 kubectl --kubeconfig jean-kubeconfig config get-users
@@ -63,7 +63,7 @@ kubectl --kubeconfig jean-kubeconfig config get-users
   
 b. Set a new context to use the credentials  
 ```
-kubectl --kubeconfig jean-kubeconfig config set-context jean --cluster=kubernetes --user=jean
+kubectl --kubeconfig jean-kubeconfig config set-context developer-user --cluster=kubernetes --user=jean --namespace=development
 ```
 ```
 kubectl --kubeconfig jean-kubeconfig config get-contexts
@@ -71,7 +71,7 @@ kubectl --kubeconfig jean-kubeconfig config get-contexts
   
 c. Change to the new context to the test the user
 ```
-kubectl --kubeconfig jean-kubeconfig config use-context jean
+kubectl --kubeconfig jean-kubeconfig config use-context developer-user
 ```
 ```
 kubectl config current-context
