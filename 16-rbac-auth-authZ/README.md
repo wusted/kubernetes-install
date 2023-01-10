@@ -62,7 +62,7 @@ b. Open jean-kubeconfig and delete all fields, leave only the cluster fields:
 
 c. Add the credentials
 ```
-kubectl --kubeconfig jean-kubeconfig config set-credentials developer-user --client-key=jean.key --client-certificate=developer-user.crt --embed-certs=true
+kubectl --kubeconfig jean-kubeconfig config set-credentials developer-user --client-key=developer-user.key --client-certificate=developer-user.crt --embed-certs=true
 ```  
 ```
 kubectl --kubeconfig jean-kubeconfig config get-users
@@ -87,9 +87,9 @@ kubectl --kubeconfig jean-kubeconfig config current-context
 
 f. Confirm no permissions to get,read,execute on resources.
 ```
-kubectl --kubeconfig jean-kubeconfig.yaml get nodes  
+kubectl --kubeconfig jean-kubeconfig get nodes  
   
-Error from server (Forbidden): nodes is forbidden: User "jean" cannot list resource "nodes" in API group "" at the cluster scope
+Error from server (Forbidden): nodes is forbidden: User "developer-user" cannot list resource "nodes" in API group "" at the cluster scope
 ```
 
 # Authorization - RBAC - ClusterRoles/Roles and ClusterRoleBindings/RoleBindings  
