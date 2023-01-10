@@ -156,4 +156,6 @@ root@dashboard-cluster-role-pod:/# curl https://${KUBERNETES_SERVICE_HOST}:${KUB
 
 References:
 https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user  
-https://kubernetes.io/docs/setup/best-practices/certificates/
+https://kubernetes.io/docs/setup/best-practices/certificates/  
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/  
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/
