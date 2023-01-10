@@ -80,7 +80,7 @@ kubectl --kubeconfig jean-kubeconfig config current-context
 
 d. Confirm no permissions to get,read,execute on resources.
 ```
-kubectl --kubeconfig jean-kubeconfig.yaml  get nodes  
+kubectl --kubeconfig jean-kubeconfig.yaml get nodes  
   
 Error from server (Forbidden): nodes is forbidden: User "jean" cannot list resource "nodes" in API group "" at the cluster scope
 ```
