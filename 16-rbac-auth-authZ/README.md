@@ -92,11 +92,36 @@ kubectl --kubeconfig jean-kubeconfig get nodes
 Error from server (Forbidden): nodes is forbidden: User "developer-user" cannot list resource "nodes" in API group "" at the cluster scope
 ```
 
+- This file 'jean-kubeconfig' can now be shared for external users to access the cluster on the specified namespace and resources to execute the allowed actions.  
+- For example in another client paste in ~/.kube/config or use it with the --kubeconfig flag.
+
 # Authorization - RBAC - ClusterRoles/Roles and ClusterRoleBindings/RoleBindings  
 
+1. Apply and create rolebinding and role in the admin context.
+```
+kubectl apply -f 02-role.yaml,03-rolebinding.yaml
+```
 
+Should work.
 
+# Testing RBAC
 
+1. Create a Pod.
+```
+kubectl --kubeconfig jean-kubeconfig run nginx --image=nginx
+  
+kubectl --kubeconfig jean-kubeconfig get pods
+```
+
+2. Confirm that other resoruces are not accessible (to access each resource, those need to be added in the role or cluster along with the verb/action and namespace)
+
+```
+kubectl --kubeconfig jean-kubeconfig get nodes  
+Error from server (Forbidden): nodes is forbidden: User "developer-user" cannot list resource "nodes" in API group "" at the cluster scope  
+  
+kubectl --kubeconfig jean-kubeconfig get ns  
+Error from server (Forbidden): namespaces is forbidden: User "developer-user" cannot list resource "namespaces" in API group "" at the cluster scope
+```
 
 References:
 https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
