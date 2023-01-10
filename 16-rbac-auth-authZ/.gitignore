@@ -3,3 +3,4 @@
 *.crt
 kubeconfig.yaml
 jean-kubeconfig
+jean-kubeconfig.yaml
