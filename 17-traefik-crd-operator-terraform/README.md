@@ -1,6 +1,6 @@
 ## Kubernetes with Traefik Ingress CRD to deploy Services with TLS encryption.
-# Using Terraform to deploy Cloud Resources
-# Load Balancer and Domain to access the K8s Service from the Internet. 
+- Using Terraform to deploy Cloud Resources  
+- Load Balancer and Domain to access the K8s Service from the Internet. 
 
 1. Initialize resources with terraform on cloud provider:
 
