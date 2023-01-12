@@ -22,6 +22,8 @@ And create the first 4 manifests for CRDs, RBAC, Service nodePort and Load Balan
 $ kubectl --kubeconfig kubeconfig.yaml get nodes
 
 $ kubectl --kubeconfig kubeconfig.yaml apply -f 03-traefik-crd.yaml,04-traefik-rbac-crd.yaml,05-traefik-service.yaml,06-traefik-loadbalancer.yaml
+
+$ kubectl --kubeconfig kubeconfig.yaml get -f 03-traefik-crd.yaml,04-traefik-rbac-crd.yaml,05-traefik-service.yaml,06-traefik-loadbalancer.yaml
 ```
 
 3. Once applied, wait for the Load Balancer in the Cloud Provider to get created.  
