@@ -16,7 +16,7 @@ $ terraform apply
 ```
 
 2. Once deployed use the kubeconfig.yaml file to access the K8s API from the cluster created.  
-And create the first 5 manifests.
+And create the first 4 manifests for CRDs, RBAC, Service nodePort and Load Balancer.
 
 ```
 $ kubectl --kubeconfig kubeconfig.yaml get nodes
@@ -35,7 +35,7 @@ $ kubectl --kubeconfig kubeconfig.yaml get all
 ```
 
 4. After assigned and waited the TTL for the IP to resolve the Hostname.  
-Create the IngressRoutes
+Create the Deployment and IngressRoutes manifests.
 
 ```
 $ kubectl --kubeconfig kubeconfig.yaml apply -f 07-traefik-deployments.yaml,08-traefik-ingressroutes.yaml
