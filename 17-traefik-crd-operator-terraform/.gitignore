@@ -10,3 +10,4 @@ kubeconfig.yml
 .terraform.lock
 .terraform.tfstate.lock.info
 *.log
+.terraform.lock.hcl
