@@ -46,6 +46,9 @@ $ kubectl --kubeconfig kubeconfig.yaml apply -f 07-traefik-deployments.yaml,08-t
 5. Confirm in the logs that the Certificate was obtained.
 ```
 $ kubectl --kubeconfig kubeconfig.yaml logs pod/traefik
+
+## Output should be something like this:
+level=debug msg="Loading ACME certificates [test.pereirajean.com]..."
 ```
 
 6. Confirm by accessing through a web browser
@@ -68,9 +71,10 @@ $ kubectl --kubeconfig kubeconfig.yaml delete pod/traefik
 To prevent cloud charges :)
 
 ```
-$ kubectl --kubeconfig terraform/kubeconfig.yaml delete -f 03-traefik-crd.yaml,04-traefik-rbac-crd.yaml,05-traefik-service.yaml,06-traefik-loadbalancer.yaml,07-traefik-deployments.yaml,08-traefik-ingressroutes.yaml
+$ kubectl --kubeconfig kubeconfig.yaml delete -f 03-traefik-crd.yaml,04-traefik-rbac-crd.yaml,05-traefik-service.yaml,06-traefik-loadbalancer.yaml,07-traefik-deployments.yaml,08-traefik-ingressroutes.yaml
 
-$ cd terraform
+$ kubectl --kubeconfig kubeconfig.yaml get all
+
 $ terraform destroy
 ```
   
