@@ -19,7 +19,7 @@ $ terraform apply
 And create the first 5 manifests.
 
 ```
-$ kubectl --kubeconfig terraform/kubeconfig.yaml get nodes
+$ kubectl --kubeconfig kubeconfig.yaml get nodes
 
 $ kubectl --kubeconfig kubeconfig.yaml apply -f 03-traefik-crd.yaml,04-traefik-rbac-crd.yaml,05-traefik-service.yaml,06-traefik-loadbalancer.yaml
 ```
