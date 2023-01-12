@@ -6,9 +6,7 @@ terraform.tfstate.backup
 id_rsa.pub
 id_rsa
 kubeconfig.yaml
-/terraform/kubeconfig.yaml
 kubeconfig.yml
-/terraform/kubeconfig.yml
 .terraform.lock
 .terraform.tfstate.lock.info
 *.log
