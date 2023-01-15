@@ -30,9 +30,9 @@ roleRef:
   kind: ClusterRole
   name: "deployment-manager"
   apiGroup: ""
-subjets:
+subjects:
   - kind: ServiceAccount
-    namespace: "gitlab-managed-apps"
+    namespace: "gitlab-runner"
     name: "default"
     apiGroup: ""
     

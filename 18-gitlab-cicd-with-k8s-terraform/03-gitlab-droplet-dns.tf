@@ -26,7 +26,7 @@ resource "digitalocean_domain" "pereirajean" {
 ## If needed a LoadBalancer can be created to put in front of the Droplet
 
 resource "digitalocean_record" "git" {
-    domain = "${digitalocean.domain.pereirajean.name}"
+    domain = "${digitalocean_domain.pereirajean.name}"
     type = "A"
     name = "git"
     value = "${digitalocean_droplet.gitlab.ipv4_address}"

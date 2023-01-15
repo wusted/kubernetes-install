@@ -11,3 +11,5 @@ kubeconfig.yml
 .terraform.tfstate.lock.info
 *.log
 .terraform.lock.hcl
+runner-chart-values.yaml
+runner-manifest.yaml
