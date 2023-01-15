@@ -127,3 +127,11 @@ Then copy the contents of: > To the test project in Gitlab.
 9. Go to the "test" Project main page.  
 - Click on Pipeline.  
 - Go to Jobs, and see the process of the jobs.
+
+
+10. When finished, if not needed anymore.  
+Remember to destroy all of the resources with Terraform.
+
+```
+$ terraform destroy
+```
