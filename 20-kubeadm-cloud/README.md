@@ -2,6 +2,7 @@
 
 - IMPORTANT, currently not working due to count.index update on terraform.
 - Debugging
+- Alternative: https://www.linode.com/docs/guides/how-to-provision-an-unmanaged-kubernetes-cluster-using-terraform/
 
 1. Add the environment variables for the session or to the .bashrc, .zshrc file.
 https://upcloud.com/resources/tutorials/getting-started-upcloud-api

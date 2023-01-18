@@ -14,7 +14,7 @@ resource "random_string" "kubeadm_token_2" {
 
 locals {
     kubeadm_token = "${random_string.kubeadm_token_1.result}.${random_string.kubeadm_token_2.result}"
-    kube_master = "${element(upcloud_server.controller.*.network_interface[0].ip_address,0)}:6443"
+    kube_master = "${element(upcloud_server.controller[0].network_interface[0].ip_address, 0)}:6443"
 }
 
 resource "upcloud_storage" "controller_storage" {
@@ -53,7 +53,7 @@ resource "upcloud_server" "controller" {
     }
 
     connection {
-        host        = "${element(self.network_interface[0].ip_address,count.index)}"
+        host        = self.network_interface[0].ip_address
         type        = "ssh"
         user        = "tf"
         private_key = "${file("id_rsa")}"
@@ -76,7 +76,7 @@ resource "upcloud_server" "controller" {
 }
 
 output "public_ip_controller" {
-    value = "${element(upcloud_server.controller.*.network_interface[0].ip_address, 0)}"
+    value = "${element(upcloud_server.controller.0.network_interface[0].ip_address, 0)}"
 }
 
 
