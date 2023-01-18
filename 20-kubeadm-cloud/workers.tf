@@ -1,5 +1,18 @@
 # Creating the workers
 
+resource "upcloud_storage" "worker_storage" {
+    size    = 50
+    tier    = "maxiops"
+    title   = "worker"
+    zone    = "us-sjo1"
+    clone {
+        # Template UUID for Ubuntu 18.04
+        id = "01000000-0000-4000-8000-000030080200" 
+        #storage = "01a0d2d1-657f-43ac-8e37-bc0a7b0447cd"
+        #storage = "CoreOS Stable 1068.8.0"
+    }
+}
+
 resource "upcloud_server" "worker" {
     zone        = "us-sjo1"
     count       = "${var.worker_count}"
@@ -10,22 +23,20 @@ resource "upcloud_server" "worker" {
 
     login {
         user            = "tf"
-        keys            = [ "${file("id.rsa_pub")}" ] # This file has to be in current dir.
+        keys            = [ "${file("id_rsa.pub")}" ] # This file has to be in current dir.
         create_password = false
     }
 
     storage_devices {
-        size    = 50
-        action  = "clone"
-        tier    = "maxiops"
-        # Template UUID for Ubuntu 18.04
-        storage = "01000000-0000-4000-8000-000030080200" 
-        #storage = "01a0d2d1-657f-43ac-8e37-bc0a7b0447cd"
-        #storage = "CoreOS Stable 1068.8.0"
+        storage = upcloud_storage.worker_storage.id
+    }
+
+    network_interface {
+        type = "public"
     }
 
     connection {
-        host        = "${self.ipv4_address}"
+        host        = self.network_interface[0].ip_address
         type        = "ssh"
         user        = "tf"
         private_key = "${file("id_rsa")}"
@@ -39,17 +50,12 @@ resource "upcloud_server" "worker" {
     provisioner "remote-exec" {
         inline  = [
             "chmod +x /home/tf/install-kubeadm.sh",
-            "sudo /home/tf/install-kubeadm.sh"
+            "sudo /home/tf/install-kubeadm.sh",
+            "sudo kubeadm join ${local.kube_master} --token ${local.kubeadm_token} --discovery-token-unsafe-skip-ca-verification"
         ]
     }
 
-    provisioner "remote-exec" {
-        inline  = [
-            "sudo kubeadm join ${local.kube_master} --token ${local.kubeadm_token}" --discovery-token-unsafe-skip-ca-verification
-        ]
-    }
-
-    depends_on = ["upcloud_server.controller"]
+    depends_on = [upcloud_server.controller]
 }
 
 ## this will output the ip of the workers, not needed initiallly.

@@ -1,5 +1,14 @@
 ## Configures the provider for Upcloud
 
+terraform {
+  required_providers {
+    upcloud = {
+      source = "UpCloudLtd/upcloud"
+      version = "2.8.0"
+    }
+  }
+}
+
 provider "upcloud" {
-    # This provider doesn't need options, only to export the credentials in the environment variables.
+  # Configuration options
 }

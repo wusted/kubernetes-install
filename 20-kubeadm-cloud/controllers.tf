@@ -14,8 +14,22 @@ resource "random_string" "kubeadm_token_2" {
 
 locals {
     kubeadm_token = "${random_string.kubeadm_token_1.result}.${random_string.kubeadm_token_2.result}"
-    kube_master = "${element(upcloud_server.controller.*.ipv4_address, 0)}:6443"
+    kube_master = "${element(upcloud_server.controller.*.network_interface[0].ip_address,0)}:6443"
 }
+
+resource "upcloud_storage" "controller_storage" {
+    size    = 50
+    tier    = "maxiops"
+    title   = "controller"
+    zone    = "us-sjo1"
+    clone {
+        # Template UUID for Ubuntu 18.04
+        id = "01000000-0000-4000-8000-000030080200" 
+        #storage = "01a0d2d1-657f-43ac-8e37-bc0a7b0447cd"
+        #storage = "CoreOS Stable 1068.8.0"
+    }
+}
+
 
 resource "upcloud_server" "controller" {
     zone        = "us-sjo1"
@@ -31,15 +45,15 @@ resource "upcloud_server" "controller" {
     }
 
     storage_devices {
-        size    = 50
-        action  = "clone"
-        tier    = "maxiops"
-        # Template UUID for Ubuntu 18.04
-        storage = "01000000-0000-4000-8000-000030080200" 
+        storage = upcloud_storage.controller_storage.id
+    }
+
+    network_interface {
+      type = "public"
     }
 
     connection {
-        host        = "${self.ipv4_address}"
+        host        = "${element(self.network_interface[0].ip_address,count.index)}"
         type        = "ssh"
         user        = "tf"
         private_key = "${file("id_rsa")}"
@@ -53,21 +67,16 @@ resource "upcloud_server" "controller" {
     provisioner "remote-exec" {
         inline = [
             "chmod +x /home/tf/install-kubeadm.sh",
-            "sudo /home/tf/install-kubeadm.sh"
-        ]
-    }
-
-    provisioner "remote-exec" {
-        inline = [
+            "sudo /home/tf/install-kubeadm.sh",
             "sudo kubeadm init --token ${local.kubeadm_token}",
             "sudo kubectl --kubeconfig=/etc/kubernetes/config.yaml apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
         ]
     }
-
+    
 }
 
 output "public_ip_controller" {
-    value = "${element(upcloud_server.controller.*.ipv4_address, 0)}"
+    value = "${element(upcloud_server.controller.*.network_interface[0].ip_address, 0)}"
 }
 
 
