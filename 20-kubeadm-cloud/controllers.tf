@@ -71,7 +71,7 @@ output "public_ip_controller" {
 }
 
 
-# this provisioner will start a Kubernetes master in this machine,
+# this provisioner will start a Kubernetes master in this machine on-prem,
 # with the help of "kubeadm" 
 
 # resource "null_resource" "controller" {
