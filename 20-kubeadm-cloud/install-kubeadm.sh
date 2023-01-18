@@ -125,7 +125,7 @@ if [ -x $LSB_RELEASE ] ; then
         RELEASE=$($LSB_RELEASE --short --release | cut -d. -f1)
         install_yum
         ;;
-
+        
     Ubuntu|Debian)
         install_apt
         ;;
@@ -138,25 +138,25 @@ elif [ /etc/os-release ] ; then
     source /etc/os-release
     case $NAME in
     RedHatEnterpriseServer|CentOS|Fedora)
-    install_yum
-    ;;
+        install_yum
+        ;;
     Ubuntu|Debian)
-    install_apt
-    ;;
+        install_apt
+        ;;
     *)
-    install_generic
-    ;;
+        install_generic
+        ;;
     esac
 elif [ -f /etc/debian_version ] ; then
-        install_apt
+    install_apt
 elif [ -f /etc/fedora-release ] ; then
-        install_yum
-elif [ -f /etc/redhat-release] ; then
-        install_yum
-elif [ -f /etc/centos-release] ; then
-        install_yum
+    install_yum
+elif [ -f /etc/redhat-release ] ; then
+    install_yum
+elif [ -f /etc/centos-release ] ; then
+    install_yum
 else
-        install_generic
+    install_generic
 fi
 
 [ -x $KUBEADM_EXE ] || abort "no kubeadm executable available at $KUBEADM_EXE"
