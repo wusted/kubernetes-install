@@ -49,7 +49,7 @@ $ kubectl get sealedsecrets,secrets
 Then you would see the base64 content of the secret.
 And Kubernetes will be able to read it.
 ```
-kubectl get secret mysecret -o yaml
+$ kubectl get secret mysecret -o yaml
 ```
 
 Reference: https://github.com/bitnami-labs/sealed-secrets
