@@ -28,3 +28,22 @@ $ docker push wusted/python-rabbitmq:latest
 ```
 
 - 
+
+
+3. Job to build a Redis queue with items.
+
+- Build the docker image and add to the remote repo
+```
+$ cd python-redis
+
+$ docker build -t python-redis .
+
+$ docker images | grep redis
+
+$ docker login
+
+$ docker tag python-redis:latest wusted/python-redis:latest
+
+$ docker push wusted/python-redis:latest
+
+```
