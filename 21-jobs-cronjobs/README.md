@@ -77,3 +77,44 @@ $ docker tag python-redis:latest wusted/python-redis:latest
 $ docker push wusted/python-redis:latest
 ```
 
+- Deploy redis pod and service
+```
+$ kubectl apply -f 03-pod-redis.yaml,03-svc-redis.yaml
+```
+- Port forward the service
+```
+$ kubectl port-forward service/redis 6379
+```
+
+- Add contents to redis
+```
+$ for f in apple banana orange mango grape lemon melon berry; do redis-cli -h 127.0.0.1 rpush job2 $f; done
+```
+
+- This can be tested with redis-cli
+```
+$ brew install redis
+
+$ redis-cli -h 127.0.0.1 lrange job2 0 -1
+```
+
+- Create the job
+```
+$ kubectl apply -f 03-job-redis.yaml
+```
+
+- Check the logs to confirm
+```
+$ stern job-redis
+```
+
+4. Run the cronjob.
+```
+$ kubectl apply -f 04-cronjob.yaml
+
+$ kubectl get cronjobs
+
+$ kubectl get pods
+
+$ kubectl logs hello
+```

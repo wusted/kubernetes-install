@@ -6,11 +6,13 @@ spec:
   schedule: "*/1 * * * *"
   jobTemplate:
     spec:
-      containers:
-      - name: hello
-        image: busybox
-        args:
-        - /bin/sh
-        - -c
-        - date; echo Hello, this is cronjob
-      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello, this is cronjob
+          restartPolicy: OnFailure

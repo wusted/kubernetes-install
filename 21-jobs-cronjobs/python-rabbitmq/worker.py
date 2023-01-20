@@ -4,5 +4,5 @@
 
 import sys
 import time
-print("Processing " + sys.stdin.readlines()[0])
+print("Procesando " + sys.stdin.readlines()[0])
 time.sleep(10)
