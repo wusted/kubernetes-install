@@ -10,7 +10,7 @@ spec:
       name: job-rabbit
     spec:
       containers:
-      - name: rabbitmq
+      - name: c
         image: wusted/python-rabbitmq
         env:
         - name: BROKER_URL
