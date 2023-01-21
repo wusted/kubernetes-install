@@ -66,9 +66,7 @@ $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes a
 
 
 4. Create the S3 Bucket Secret. 
-- One Bucket per Cluster
-
-`vim _thanos-objstorage.yaml`
+- One Bucket per Cluster `vim _thanos-objstorage.yaml`
 ```
 type: S3
 config:
