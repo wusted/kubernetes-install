@@ -12,3 +12,4 @@ kubeconfig.yml
 *.log
 .terraform.lock.hcl
 runner-manifest.yaml
+do_kubeconfig.yaml
