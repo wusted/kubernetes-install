@@ -5,6 +5,8 @@
 
 1. Local cluster already set, need to set the DigitalOcean Cluster
 ```
+$ export TF_VAR_do_token=[replace_with_token_value]
+
 $ terraform init
 
 $ terraform plan

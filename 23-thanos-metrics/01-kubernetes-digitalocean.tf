@@ -1,5 +1,5 @@
 resource "digitalocean_kubernetes_cluster" "jean" {
-    name = jean
+    name = "jean"
     region = "nyc1"
     version = "1.25.4-do.0"
 
