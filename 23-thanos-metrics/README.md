@@ -26,4 +26,76 @@ $ kubectl config view --merge --flatten > thanosconfig.yaml
 $ exit
 
 # Without setting the ENV for KUBECONFIG, check both contexts with new config file.
-$
+# It should show 2 contexts, one for each cluster
+$ kubectl --kubeconfig thanosconfig.yaml config get-contexts
+```
+
+3. Install kube-prometheus in both clusters.
+
+https://github.com/wusted/kubernetes-install/tree/main/15-kube-prometheus-operator
+
+Digital Ocean Cluster Example
+- Repeat for any other context/cluster needed.
+
+```
+## Create the metrics CRDs.
+
+### Digital Ocean Cluster
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean get --raw /apis/metrics.k8s.io
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean top pods
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean top nodes
+
+## Create the kube-prometheus-operator
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f ./kube-prometheus-operator/manifests
+
+
+### Local On-Prem Kubeadm Cluster
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes get --raw /apis/metrics.k8s.io
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top pods
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top nodes
+
+## Create the kube-prometheus-operator
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f ./kube-prometheus-operator/manifests
+
+
+```
+
+
+
+4. Create the S3 Bucket Secret. 
+- One Bucket per Cluster
+
+`vim _thanos-objstorage.yaml`
+```
+type: S3
+config:
+  bucket: "xxxx"
+  endpoint: "s3.amazonaws.com"
+  region: "us-east-1"
+  access_key: "yyyy"
+  secret_key: "zzzz"
+``` 
+
+- Base64 Encode
+`cat _thanos-objstorage.yaml | base64`
+
+- Generate Kubernetes Secret
+`vim _thanos-objstore-secret.yaml`
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: thanos-objectstorage
+  namespace: monitoring
+  labels:
+    app: thanos
+type: Opaque
+data:
+  thanos.yaml: [PLACE_BASE64_S3_OBJ_STORE_HERE]
+```
