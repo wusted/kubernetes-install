@@ -31,16 +31,13 @@ $ kubectl --kubeconfig thanosconfig.yaml config get-contexts
 ```
 
 3. Install kube-prometheus in both clusters.
+- Repeat for any other context/cluster needed.
 
 https://github.com/wusted/kubernetes-install/tree/main/15-kube-prometheus-operator
 
-Digital Ocean Cluster Example
-- Repeat for any other context/cluster needed.
-
+- Digital Ocean Cluster Example
 ```
 ## Create the metrics CRDs.
-
-### Digital Ocean Cluster
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean get --raw /apis/metrics.k8s.io
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean top pods
@@ -50,9 +47,11 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean top nodes
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply --server-side -f ./kube-prometheus-operator/manifests/setup
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f ./kube-prometheus-operator/manifests
+```
 
-
-### Local On-Prem Kubeadm Cluster
+- Local On-Prem Kubeadm Cluster
+```
+## Create the metrics CRDs.
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes get --raw /apis/metrics.k8s.io
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top pods
@@ -62,8 +61,6 @@ $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes t
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply --server-side -f ./kube-prometheus-operator/manifests/setup
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f ./kube-prometheus-operator/manifests
-
-
 ```
 
 
