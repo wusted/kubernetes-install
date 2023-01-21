@@ -13,3 +13,4 @@ kubeconfig.yml
 .terraform.lock.hcl
 runner-manifest.yaml
 do_kubeconfig.yaml
+thanosconfig.yaml

@@ -13,3 +13,17 @@ $ terraform plan
 
 $ terraform apply
 ```
+
+2. Create the kubeconfig with both contexts
+
+```
+# Set the ENV for kubectl to grab it temp.
+$ export KUBECONFIG=~/.kube/config:./do_kubeconfig.yaml
+$ kubectl config get-contexts
+
+# Merge the contents in a new file.
+$ kubectl config view --merge --flatten > thanosconfig.yaml
+$ exit
+
+# Without setting the ENV for KUBECONFIG, check both contexts with new config file.
+$
