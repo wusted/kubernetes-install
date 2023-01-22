@@ -14,7 +14,7 @@ kubeconfig.yml
 runner-manifest.yaml
 do_kubeconfig.yaml
 thanosconfig.yaml
-_thanos-objstorage.yaml
+_thanos-objstorage-1.yaml
 _thanos-objstorage-2.yaml
 _thanos-objstore-secret-1.yaml
 _thanos-objstore-secret-2.yaml
