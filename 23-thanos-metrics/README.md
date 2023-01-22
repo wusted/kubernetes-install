@@ -1,8 +1,6 @@
 ## Thanos Metric for Prometheus
 - For this we will need at least 2 cluster.
-- I will setup: 1 Local On-Prem Kubeadm Cluster and 1 Cloud DigitalOcean Cluster.
-- For the Cloud Cluster I will use Terraform.
-- For the Local Cluster Kubeadm with KVM.
+- I will setup: 2 Cloud DigitalOcean Cluster with Terraform.
 
 1. Local cluster already set, need to set the DigitalOcean Cluster
 ```
@@ -151,9 +149,9 @@ $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes -
 Edit the file to add the Thanos sidecar container.
 
 - Digital Ocean Cluster
-`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./prometheus-prometheus-thanos-digitalocean-cluster.yaml`
+`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml`
 
-`vim ./prometheus-prometheus-thanos-digitalocean-cluster.yaml`
+`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml`
 ```
 ## At the end of the file add:
   thanos:
@@ -166,7 +164,7 @@ Edit the file to add the Thanos sidecar container.
 
 Apply the changes to the Prometheus Pod
 ```
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f ./prometheus-prometheus-thanos-digitalocean-cluster.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml
 
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean get pods monitoring prometheus-prometheus
 
@@ -175,9 +173,9 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean get pods monitor
 
 
 - Local On-Prem Kubeadm Cluster
-`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./prometheus-prometheus-thanos-localonprem-cluster.yaml`
+`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-localonprem-cluster.yaml`
 
-`vim ./prometheus-prometheus-thanos-localonprem-cluster.yaml`
+`vim ./03-prometheus-prometheus-thanos-localonprem-cluster.yaml`
 ```
 ## At the end of the file add:
   thanos:
@@ -190,9 +188,25 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean get pods monitor
 
 Apply the changes to the Prometheus Pod
 ```
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes -f ./prometheus-prometheus-thanos-localonprem-cluster.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes -f ./03-prometheus-prometheus-thanos-localonprem-cluster.yaml
 
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes get pods monitoring prometheus-prometheus
 
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes get pods monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
+```
+
+6. Create the Service for the Thanos Sidecar.
+- This was customized to be a LoadBalancer to be accesible across the Internet.
+- Syntax and labels for creation was a customization based on:
+https://github.com/prometheus-operator/kube-prometheus/tree/main/manifests  
+https://github.com/prometheus-operator/prometheus-operator/blob/main/example/thanos/sidecar-service.yaml
+
+- Digital Ocean Cluster
+```
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f 04-thanos-sidecar-svc.yaml
+```
+
+- Local On-Prem Kubeadm Cluster
+```
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes -f 04-thanos-sidecar-svc.yaml
 ```
