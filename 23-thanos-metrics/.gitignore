@@ -13,8 +13,8 @@ kubeconfig.yml
 .terraform.lock.hcl
 runner-manifest.yaml
 do_kubeconfig.yaml
-jean-1_kubernetes.yaml
-jean-2_kubernetes.yaml
+jean-1_kubeconfig.yaml
+jean-2_kubeconfig.yaml
 thanosconfig.yaml
 _thanos-objstorage-1.yaml
 _thanos-objstorage-2.yaml

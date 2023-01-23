@@ -5,5 +5,5 @@ resource "local_file" "kubernetes-1_config" {
 
 resource "local_file" "kubernetes-2_config" {
     content = "${digitalocean_kubernetes_cluster.jean-2.kube_config.0.raw_config}"
-    filename = "jean-2_kubernetes.yaml"
+    filename = "jean-2_kubeconfig.yaml"
 }

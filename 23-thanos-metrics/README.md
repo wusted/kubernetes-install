@@ -17,7 +17,7 @@ $ terraform apply
 
 ```
 # Set the ENV for kubectl to grab it temp.
-$ export KUBECONFIG=./jean-1_kubeconfig.yaml:./jean-2_kubernetes.yaml
+$ export KUBECONFIG=./jean-1_kubeconfig.yaml:./jean-2_kubeconfig.yaml
 $ kubectl config get-contexts
 
 # Merge the contents in a new file.
