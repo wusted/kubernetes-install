@@ -1,6 +1,6 @@
 ## Thanos Metric for Prometheus
-- For this we will need at least 2 cluster.
-- I will setup: 2 Cloud DigitalOcean Cluster with Terraform.
+- For this we will need at least 2 Kubernetes clusters.
+- I will setup: 2 Cloud DigitalOcean Kubernetes Cluster with Terraform.
 
 1. Local cluster already set, need to set the DigitalOcean Cluster
 ```
