@@ -34,33 +34,36 @@ $ kubectl --kubeconfig thanosconfig.yaml config get-contexts
 
 https://github.com/wusted/kubernetes-install/tree/main/15-kube-prometheus-operator
 
-- Digital Ocean Cluster Example
+- Digital Ocean Cluster Number 1 Example
 ```
 ## Create the metrics CRDs.
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean get --raw /apis/metrics.k8s.io
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean top pods
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean top nodes
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get --raw /apis/metrics.k8s.io
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 top pods
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 top nodes
 
 ## Create the kube-prometheus-operator
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply --server-side -f ./kube-prometheus-operator/manifests/setup
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f ./kube-prometheus-operator/manifests
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./kube-prometheus-operator/manifests
 ```
 
-- Local On-Prem Kubeadm Cluster
+- Digital Ocean Cluster Number 2 Example
 ```
 ## Create the metrics CRDs.
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes get --raw /apis/metrics.k8s.io
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top pods
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top nodes
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get --raw /apis/metrics.k8s.io
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 top pods
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 top nodes
 
 ## Create the kube-prometheus-operator
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply --server-side -f ./kube-prometheus-operator/manifests/setup
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
-$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f ./kube-prometheus-operator/manifests
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./kube-prometheus-operator/manifests
 ```
+
+
+
 
 
 
@@ -210,3 +213,26 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean apply -f 04-than
 ```
 $ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes -f 04-thanos-sidecar-svc.yaml
 ```
+
+
+----
+
+If a Local-On Prem setup is used, follow this steps instead.
+
+
+3. Install kube-prometheus in both clusters.
+- Local On-Prem Kubeadm Cluster
+```
+## Create the metrics CRDs.
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes get --raw /apis/metrics.k8s.io
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top pods
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes top nodes
+
+## Create the kube-prometheus-operator
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context kubernetes-admin@kubernetes apply -f ./kube-prometheus-operator/manifests
+```
+
+
