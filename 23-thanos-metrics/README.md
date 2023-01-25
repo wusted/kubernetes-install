@@ -29,10 +29,12 @@ $ exit
 $ kubectl --kubeconfig thanosconfig.yaml config get-contexts
 ```
 
+
 3. Install kube-prometheus in both clusters.
 - Repeat for any other context/cluster needed.
 
 https://github.com/wusted/kubernetes-install/tree/main/15-kube-prometheus-operator
+
 
 - Digital Ocean Cluster Number 1 Example
 ```
@@ -42,11 +44,28 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get --raw /api
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 top pods
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 top nodes
 
+
+
 ## Create the kube-prometheus-operator
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./kube-prometheus-operator/manifests/setup --server-side
+
+$ until kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; done
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./kube-prometheus-operator/manifests
+
+
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 --namespace monitoring port-forward svc/prometheus-k8s 9090
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 --namespace monitoring port-forward svc/grafana 3000
+
+## User for grafana is admin
+## Password for grafana can be: admin or prom-operator
+
 ```
+
+
+
 
 - Digital Ocean Cluster Number 2 Example
 ```
@@ -56,14 +75,24 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get --raw /api
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 top pods
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 top nodes
 
+
 ## Create the kube-prometheus-operator
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply --server-side -f ./kube-prometheus-operator/manifests/setup
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./kube-prometheus-operator/manifests/setup --server-side
+
+$ until kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; done
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./kube-prometheus-operator/manifests
+
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 --namespace monitoring port-forward svc/prometheus-k8s 9090
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 --namespace monitoring port-forward svc/grafana 3000
+
+## User for grafana is admin
+## Password for grafana can be: admin or prom-operator
+
+
 ```
-
-
-
 
 
 
