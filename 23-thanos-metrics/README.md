@@ -109,7 +109,7 @@ Create the Bucket on AWS First, and replace parameters values with correct ones.
 type: S3
 config:
   bucket: "xxxx"
-  endpoint: "s3.amazonaws.com"
+  endpoint: "s3.us-east-1.amazonaws.com"
   region: "us-east-1"
   access_key: "yyyy"
   secret_key: "zzzz"
@@ -140,7 +140,7 @@ data:
 type: S3
 config:
   bucket: "xxxx"
-  endpoint: "s3.amazonaws.com"
+  endpoint: "s3.us-east-1.amazonaws.com"
   region: "us-east-1"
   access_key: "yyyy"
   secret_key: "zzzz"
@@ -249,5 +249,7 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f 04-th
 ```
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f 04-thanos-sidecar-svc.yaml
 ```
+
+
 
 
