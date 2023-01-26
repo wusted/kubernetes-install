@@ -94,8 +94,6 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 -n monitoring 
 ## Test by going to browser at localhost:9090 and localhost:3000
 ## User for grafana is admin
 ## Password for grafana can be: admin or prom-operator
-
-
 ```
 
 
@@ -186,11 +184,9 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f _than
 - Make a copy of the Prometheus pod manifest to the main directory.  
 Edit the file to add the Thanos sidecar container.
 
+`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml`
 
-- Digital Ocean Cluster Number 1 Example
-`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml`
-
-`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml`
+`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml`
 ```
 ## At the end of the file add:
   thanos:
@@ -201,7 +197,9 @@ Edit the file to add the Thanos sidecar container.
     version: v0.28.1
 ```
 
-- Apply the changes to the Prometheus Pod
+
+- Digital Ocean Cluster Number 1 Example
+Apply the changes to the Prometheus Pod
 ```
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml
 
@@ -212,20 +210,7 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods monit
 
 
 - Digital Ocean Cluster Number 2 Example
-`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster-2.yaml`
-
-`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster-2.yaml`
-```
-## At the end of the file add:
-  thanos:
-    image: quay.io/thanos/thanos:v0.28.1
-    objectStorageConfig:
-      key: thanos.yaml
-      name: thanos-objectstorage # This is the secret's name created in the cluster from previous step.
-    version: v0.28.1
-```
-
-- Apply the changes to the Prometheus Pod
+Apply the changes to the Prometheus Pod
 ```
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml
 
