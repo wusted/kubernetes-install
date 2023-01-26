@@ -201,22 +201,24 @@ Edit the file to add the Thanos sidecar container.
 - Digital Ocean Cluster Number 1 Example
 Apply the changes to the Prometheus Pod
 ```
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml
 
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods monitoring prometheus-prometheus
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get statefulsets -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-0
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-1
 
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
 ```
 
 
 - Digital Ocean Cluster Number 2 Example
 Apply the changes to the Prometheus Pod
 ```
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml
 
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods monitoring prometheus-prometheus
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring prometheus-prometheus
 
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
 ```
 
 6. Create the Service for the Thanos Sidecar.
