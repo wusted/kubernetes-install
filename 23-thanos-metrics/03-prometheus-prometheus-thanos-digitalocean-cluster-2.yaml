@@ -18,7 +18,7 @@ spec:
       port: web
   enableFeatures: []
   externalLabels:
-    cluster: cluster-1
+    cluster: cluster-2
   image: quay.io/prometheus/prometheus:v2.41.0
   nodeSelector:
     kubernetes.io/os: linux

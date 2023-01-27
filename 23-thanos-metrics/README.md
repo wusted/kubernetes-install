@@ -181,12 +181,63 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f _than
 - This sidecar will be accesing and sharing all of the Prometheus Metrics.
 - Reference: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/thanos.md
 
+
+- Digital Ocean Cluster Number 1 Example
+
+- Make a copy of the Prometheus pod manifest to the main directory.  
+Edit the file to add the Thanos sidecar container and add an externalLabel to identify each cluster.
+
+`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml`
+
+`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml`
+
+```
+## Add a label: in .spec before image:
+  externalLabels:
+    cluster: cluster-1
+```
+
+```
+## At the end of the file add:
+  thanos:
+    image: quay.io/thanos/thanos:v0.28.1
+    objectStorageConfig:
+      key: thanos.yaml
+      name: thanos-objectstorage # This is the secret's name created in the cluster from previous step.
+    version: v0.28.1
+```
+
+Apply the changes to the Prometheus Pod
+```
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster-1.yaml
+
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get statefulsets -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-0
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-1
+
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-0 -o jsonpath="{.spec.containers[*].name}"
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-1 -o jsonpath="{.spec.containers[*].name}"
+
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 exec -it -n monitoring prometheus-k8s-0 -c prometheus -- grep cluster /etc/prometheus/config_out/prometheus.env.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 exec -it -n monitoring prometheus-k8s-1 -c prometheus -- grep cluster /etc/prometheus/config_out/prometheus.env.yaml
+```
+
+
+- Digital Ocean Cluster Number 2 Example
+
 - Make a copy of the Prometheus pod manifest to the main directory.  
 Edit the file to add the Thanos sidecar container.
 
-`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml`
+`$ cp ./kube-prometheus-operator/manifests/prometheus-prometheus.yaml ./03-prometheus-prometheus-thanos-digitalocean-cluster-2.yaml`
 
-`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml`
+`vim ./03-prometheus-prometheus-thanos-digitalocean-cluster-2.yaml`
+
+```
+## Add a label: in .spec before image:
+  externalLabels:
+    cluster: cluster-2
+```
+
 ```
 ## At the end of the file add:
   thanos:
@@ -198,27 +249,19 @@ Edit the file to add the Thanos sidecar container.
 ```
 
 
-- Digital Ocean Cluster Number 1 Example
 Apply the changes to the Prometheus Pod
 ```
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster-2.yaml
 
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get statefulsets -n monitoring
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-0
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring prometheus-k8s-1
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get statefulsets -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring prometheus-k8s-0
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring prometheus-k8s-1
 
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods -n monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
-```
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring prometheus-k8s-0 -o jsonpath="{.spec.containers[*].name}"
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring prometheus-k8s-1 -o jsonpath="{.spec.containers[*].name}"
 
-
-- Digital Ocean Cluster Number 2 Example
-Apply the changes to the Prometheus Pod
-```
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f ./03-prometheus-prometheus-thanos-digitalocean-cluster.yaml
-
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring prometheus-prometheus
-
-$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get pods -n monitoring promethues-prometheus -o jsonpath='{.spec.thanos}'
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 exec -it -n monitoring prometheus-k8s-0 -c prometheus -- grep cluster /etc/prometheus/config_out/prometheus.env.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 exec -it -n monitoring prometheus-k8s-1 -c prometheus -- grep cluster /etc/prometheus/config_out/prometheus.env.yaml
 ```
 
 6. Create the Service for the Thanos Sidecar.
@@ -230,13 +273,18 @@ https://github.com/prometheus-operator/prometheus-operator/blob/main/example/tha
 - Digital Ocean Cluster Number 1 Example
 ```
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f 04-thanos-sidecar-svc.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get svc -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get ep -n monitoring thanos-sidecar-service
 ```
 
 - Digital Ocean Cluster Number 2 Example
 ```
 $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 apply -f 04-thanos-sidecar-svc.yaml
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get svc -n monitoring
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get ep -n monitoring thanos-sidecar-service
 ```
 
 
+7. Create the Thanos Querier.
 
 
