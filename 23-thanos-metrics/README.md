@@ -2,6 +2,10 @@
 - For this we will need at least 2 Kubernetes clusters.
 - I will setup: 2 Cloud DigitalOcean Kubernetes Cluster with Terraform. (This can be adapted to mostly of Cloud Providers)
 
+Alternative:
+https://docs.bitnami.com/tutorials/create-multi-cluster-monitoring-dashboard-thanos-grafana-prometheus/
+https://tanzu.vmware.com/developer/guides/prometheus-multicluster-monitoring/
+
 1. Local cluster already set, need to set the DigitalOcean Cluster
 ```
 $ export TF_VAR_do_token=[replace_with_token_value]
