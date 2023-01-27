@@ -309,3 +309,7 @@ Go to: Configuration > Data Sources > prometheus > Add data source > Type: Prome
 
 Go to: Explore > thanos Source > Code PromQL Query or Dashboard and check for metrics per cluster.
 
+- Check the S3 Bukects, the Thanos Metrics should be stored there.
+
+- Remember to terraform destroy :)
+
