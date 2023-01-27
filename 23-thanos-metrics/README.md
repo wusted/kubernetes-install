@@ -286,5 +286,22 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-2 get ep -n moni
 
 
 7. Create the Thanos Querier.
+Reference: https://github.com/prometheus-operator/prometheus-operator/blob/main/example/thanos/query-deployment.yaml#L8
+https://github.com/prometheus-operator/prometheus-operator/blob/main/example/thanos/query-service.yaml
 
+```
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 apply -f 05-thanos-querier.yaml
+
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 get pods,deploy,svc
+```
+
+8. Access Grafana on cluster1
+
+```
+$ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 -n monitoring port-forward svc/grafana 3000
+```
+
+Go to: Configuration > Data Sources > prometheus > Add data source > Type: Prometheus > Name: thanos > URL: http://thanos-query-service.default.svc:9090  
+
+Go to: Explore > thanos Source > Code PromQL Query > 
 
