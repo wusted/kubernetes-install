@@ -303,5 +303,5 @@ $ kubectl --kubeconfig thanosconfig.yaml --context do-nyc1-jean-1 -n monitoring 
 
 Go to: Configuration > Data Sources > prometheus > Add data source > Type: Prometheus > Name: thanos > URL: http://thanos-query-service.default.svc:9090  
 
-Go to: Explore > thanos Source > Code PromQL Query > 
+Go to: Explore > thanos Source > Code PromQL Query or Dashboard and check for metrics per cluster.
 
