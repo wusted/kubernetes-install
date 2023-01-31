@@ -12,8 +12,10 @@
 https://github.com/prometheus-operator/kube-prometheus
 https://prometheus-operator.dev/docs/prologue/quick-start/
 
-2. 
+2. Check the metrics version and api-resources
 ```
 # https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-22
 $ kubectl get --raw /apis/metrics.k8s.io/
+
+$ kubectl get apiservices.apiregistration.k8s.io
 ```
