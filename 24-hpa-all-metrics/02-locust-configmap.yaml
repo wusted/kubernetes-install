@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-loadtest-locustfile
+data:
+  main.py: |-
+    from locust import HttpUser, TaskSet, task, between
+    class UserBehavior(TaskSet):
+        @task
+        def get_something(self):
+            self.client.get("/")
+    class WebsiteUser(HttpUser):
+        task_set = UserBehavior
+        wait_time = between(5, 9)
