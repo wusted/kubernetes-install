@@ -4,11 +4,11 @@ metadata:
   name: my-loadtest-locustfile
 data:
   main.py: |-
-    from locust import HttpUser, TaskSet, task, between
-    class UserBehavior(TaskSet):
-        @task
-        def get_something(self):
-            self.client.get("/")
-    class WebsiteUser(HttpUser):
-        task_set = UserBehavior
+    from locust import HttpUser, task, between
+
+    class MyUser(HttpUser):
         wait_time = between(5, 9)
+
+        @task(4)
+        def index(self):
+            self.client.get("/")

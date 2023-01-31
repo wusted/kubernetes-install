@@ -57,7 +57,9 @@ Run this command:
 
 $ kubectl --namespace default port-forward service/locust 8089:8089
 
-Then open in a browser: http://localhost:8089
-
-Use the svc name for the test.
+Then open in a browser: http://localhost:8089  
+  
+Use the svc name for the test. In this case "http://hello-svc:80"
 ```
+
+6. Test - CPU and Memory HPA
