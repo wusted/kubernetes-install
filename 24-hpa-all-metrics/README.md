@@ -7,7 +7,10 @@
     - External Metrics 
         https://github.com/kubernetes/design-proposals-archive/blob/main/instrumentation/external-metrics-api.md
         https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-metrics-not-related-to-kubernetes-objects
-    
+
+0. Install metrics API 
+https://github.com/wusted/kubernetes-install/blob/main/2.1-metrics-server-setup
+
 1. Install kube-prometheus.
 https://github.com/prometheus-operator/kube-prometheus
 https://prometheus-operator.dev/docs/prologue/quick-start/
@@ -63,3 +66,25 @@ Use the svc name for the test. In this case "http://hello-svc:80"
 ```
 
 6. Test - CPU and Memory HPA
+
+Initial Locust Test:
+- 10 Users , 10 Spawn Rate (1RPS), http://hello-svc:80
+
+- Create the HPA
+```
+$ kubectl apply -f 03-hello-hpa-cpu.yaml
+
+$ kubectl get hpa
+$ kubectl get pods,deploy
+
+# This should not scale (minReplicas: 3) since load is below the threshold of CPU averageUtilization: 50
+```
+
+Stop and start a new Locust Test:
+- 300 Users , 10 Spawn Rate (44 RPS), http://hello-svc:80
+```
+$ kubectl get hpa
+$ kubectl get pods,deploy
+
+# This should scale since load is above the threshold of CPU averageUtilization: 50
+```
