@@ -32,9 +32,14 @@ $ kubectl get deploy,svc,pods,servicemonitor
 
 4. Create the APIServices which works as an EndPoints for Kubernetes to reach kube-prometheus adapter,  
 that exposes the Prometheus Metrics for the Kubernetes Cluster.
+Ref: https://github.com/kubernetes-sigs/prometheus-adapter
 
 ```
-$ kubectl apply -f 01-apiservice.yaml
+$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+$ helm repo update
+$ helm install my-release prometheus-community/prometheus-adapter
+
+$ kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 
 $ kubectl get apiservices -n monitoring | grep metrics
 ```
@@ -87,4 +92,49 @@ $ kubectl get hpa
 $ kubectl get pods,deploy
 
 # This should scale since load is above the threshold of CPU averageUtilization: 50
+```
+
+6. Test - Pods Metrics
+Not tested, still investigating how to use it.
+
+
+6. Test - Custom Metrics
+- Taking metrics from other service.
+- For example rabbitmq, when a Pod resource usage is not overused, but the time to complete a task generates a queue. That queue will need to get distributed across other pods that may not exist, HPA can be used to satisfy that queue.
+
+- Delete previous HPA and Create RabbitMQ Deployment
+```
+$ kubectl delete -f 03-hello-hpa-cpu.yaml
+
+$ kubectl apply -f 05-rabbitmq.yaml
+$ kubectl get -f 05-rabbitmq.yaml
+
+```
+
+- Set the RabbitMQ queue to consume
+
+```
+# Export RabbitMQ Service in another terminal
+$ kubectl port-forward svc/rabbitmq-service 5672
+
+# Add the ENV Variable and Set the queue.
+$ export BROKER_URL=amqp://guest:guest@127.0.0.1:5672
+$ brew install rabbitmq-c
+$ amqp-declare-queue --url=$BROKER_URL -q job1 -d
+$ for f in apple banana orange mango grape lemon melon berry; do amqp-publish --url=$BROKER_URL -r job1 -p -b $f; done
+```
+
+- Create the HPA for RabbitMQ Deployment.
+```
+# In this HPA the Max Value for jobs in the queue is 5.
+# So HPA will increase the pod replicas to met the length of the queue = 8
+$ kubectl apply -f 06-hello-hpa-custom.yaml
+
+$ kubectl get -f 06-hello-hpa-custom.yaml
+$ kubectl describe -f 06-hello-hpa-custom.yaml
+$ kubectl get -f 00-hello-prom-example-deployment.yaml
+```
+
+# Consume the queue
+$ amqp-consume --url=$BROKER_URL -q job1 -c 1 cat && echo
 ```

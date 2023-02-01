@@ -12,6 +12,7 @@ spec:
   metrics:
   # Metrics "Pods" takes the metric average
   # for all of the pods controlled by the hpa deployment.
+  # this metrics should not be a counter.
   - type: Pods
     pods:
       metric:

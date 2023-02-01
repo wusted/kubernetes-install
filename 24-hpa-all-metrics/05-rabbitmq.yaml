@@ -1,9 +1,9 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq-controller
   labels:
     component: rabbitmq
+  name: rabbitmq-controller
 spec:
   selector:
     matchLabels:
@@ -48,26 +48,27 @@ spec:
         - mountPath: /etc/rabbitmq
           name: rabbitmq-config-rw
       volumes:
-      - name: rabbitmq-config
-        configMap:
+      - configMap:
           defaultMode: 420
           items:
           - key: rabbitmq.conf
             path: rabbitmq.conf
-          - key: enabled-plugins
-            path: enabled-plugins
+          - key: enabled_plugins
+            path: enabled_plugins
           name: rabbitmq-config
-      - name: rabbitmq-config-rw
-        emptyDir: {}
-      - name: rabbitmq-data
-        emptyDir: {}
+        name: rabbitmq-config
+      - emptyDir: {}
+        name: rabbitmq-config-rw
+      - emptyDir: {}
+        name: rabbitmq-data
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq-service
   labels:
     component: rabbitmq
+  name: rabbitmq-service
 spec:
   ports:
   - name: http
@@ -85,16 +86,18 @@ spec:
   selector:
     app: taskQueue
     component: rabbitmq
----
+
+--- 
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rabbitmq-config
 data:
-  enabled-plugins: |
+  enabled_plugins: |
     [rabbitmq_management,rabbitmq_peer_discovery_k8s,rabbitmq_prometheus].
   rabbitmq.conf: |
     loopback_users.guest = false
+
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
