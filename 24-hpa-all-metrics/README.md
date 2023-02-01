@@ -39,6 +39,8 @@ $ helm repo add prometheus-community https://prometheus-community.github.io/helm
 $ helm repo update
 $ helm install my-release prometheus-community/prometheus-adapter
 
+$ helm get manifest my-release | kubectl get -f -
+
 $ kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 
 $ kubectl get apiservices -n monitoring | grep metrics

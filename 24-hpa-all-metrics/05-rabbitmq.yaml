@@ -103,7 +103,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    component: rabbitmq
+    app.kubernetes.io/component: rabbitmq
+    app.kubernetes.io/name: prometheus-adapter
+    app.kubernetes.io/part-of: kube-prometheus
   name: rabbitmq
 spec:
   endpoints:
@@ -111,4 +113,6 @@ spec:
     port: web
   selector:
     matchLabels:
-      component: rabbitmq
+      app.kubernetes.io/component: rabbitmq
+      app.kubernetes.io/name: prometheus-adapter
+      app.kubernetes.io/part-of: kube-prometheus
