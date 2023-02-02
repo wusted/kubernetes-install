@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "jean" {
     name = "jean-nginx-cert-manager"
     region = "nyc1"
-    version = "1.25.4.-do.0"
+    version = "1.25.4-do.0"
 
     node_pool {
         name = "jean-nginx-cert-manager-nodes"
