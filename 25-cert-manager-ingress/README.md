@@ -47,6 +47,8 @@ $ kubectl --kubeconfig kubeconfig.yaml get pods -n ingress-nginx -l app.kubernet
 $ kubectl --kubeconfig kubeconfig.yaml get svc --namespace=ingress-nginx
 
 $ kubectl --kubeconfig kubeconfig.yaml get -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/do/deploy.yaml
+
+$ kubectl --kubeconfig kubeconfig.yaml patch svc --namespace=ingress-nginx ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
 ```
 
 6. Create the Ingress Resource to connect with the Ingress Controller.

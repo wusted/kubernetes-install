@@ -1,5 +1,5 @@
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: hello-v1
 spec:
@@ -13,18 +13,18 @@ spec:
         app: hello-v1
     spec:
       containers:
-        - name: hello
-          image: gcr.io/google-samples/hello-app:1.0
-          imagePullPolicy: IfNotPresent
-          ports:
-          - containerPort: 8080
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "50m"
-            limits:
-              memory: "128Mi"
-              cpu: "100m"
+      - name: hello
+        image: gcr.io/google-samples/hello-app:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
 ---
 kind: Service
 apiVersion: v1
@@ -34,6 +34,7 @@ spec:
   selector:
     app: hello-v1
   ports:
-  - protocol: TCP
+  - name: http
+    protocol: TCP
     port: 80
     targetPort: 8080
