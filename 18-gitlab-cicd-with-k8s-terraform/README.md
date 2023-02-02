@@ -7,7 +7,7 @@
 1. Add the do_token environment variable
 
 ```
-export TF_VAR_do_token=REPLACE_WITH_TOKEN
+$export TF_VAR_do_token=REPLACE_WITH_TOKEN
 ```
 
 2. Provision the Cloud Infrastructure with Terraform.  
@@ -23,7 +23,7 @@ $ terraform init
 
 $ terraform plan
 
-$ terraform plan
+$ terraform apply 
 
 # Remember to have the id_rsa.pub in the terraform.state directory
 ```
