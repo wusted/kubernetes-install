@@ -50,6 +50,7 @@ $ kubectl --kubeconfig kubeconfig.yaml get svc --namespace=ingress-nginx
 $ kubectl --kubeconfig kubeconfig.yaml get -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/do/deploy.yaml
 
 $ kubectl --kubeconfig kubeconfig.yaml patch svc --namespace=ingress-nginx ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
+$ kubectl --kubeconfig kubeconfig.yaml describe svc --namespace=ingress-nginx ingress-nginx-controller
 ```
 
 6. Create the Ingress Resource to connect with the Ingress Controller.
@@ -169,6 +170,6 @@ hello.pereirajean.com will redirect to https://hello.pereirajean.com/ which is e
 ```
 
 
-References: 
-https://github.com/cert-manager/cert-manager
+References:   
+https://github.com/cert-manager/cert-manager  
 https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes
