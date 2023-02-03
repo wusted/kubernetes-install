@@ -97,7 +97,7 @@ $ kubectl --kubeconfig kubeconfig.yaml apply -f 06-loadbalancer-ingress.yaml
 $ kubectl --kubeconfig kubeconfig.yaml get -f 06-loadbalancer-ingress.yaml
 ```
 
-== STAGING ==
+== STAGING ==  
 8. Create the cert-manager ClusterIssuer for Staging.
 
 ```
@@ -130,7 +130,7 @@ To connect to hello.pereirajean.com insecurely, use `--no-check-certificate'.
 - This is because we are using staging cert, which is similar to a Self-Sign Certificate where it is not possible to verify certificate authenticity for the client.
 
 
-== PROD ==
+== PROD ==  
 10. Create the cert-manager ClusterIssuer for Prod.
 
 ```
@@ -167,6 +167,7 @@ From web browser:
 
 hello.pereirajean.com will redirect to https://hello.pereirajean.com/ which is encrypted with the certificates.
 ```
+
 
 References: 
 https://github.com/cert-manager/cert-manager
