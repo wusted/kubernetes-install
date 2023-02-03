@@ -169,6 +169,11 @@ From web browser:
 hello.pereirajean.com will redirect to https://hello.pereirajean.com/ which is encrypted with the certificates.
 ```
 
+- Delete
+```
+$ kubectl --kubeconfig kubeconfig.yaml delete -f ./ 
+$ terraform destroy
+```
 
 References:   
 https://github.com/cert-manager/cert-manager  
