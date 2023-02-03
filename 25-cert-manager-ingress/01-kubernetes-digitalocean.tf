@@ -5,7 +5,7 @@ resource "digitalocean_kubernetes_cluster" "jean" {
 
     node_pool {
         name = "jean-nginx-cert-manager-nodes"
-        size = "s-1vcpu-2gb"
+        size = "s-2vcpu-4gb"
         node_count = 2
         tags = ["jean-nginx-cert-manager-nodes"]
     }
