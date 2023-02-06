@@ -77,6 +77,35 @@ $ argocd account update-password
 $ kubectl --kubeconfig kubeconfig.yaml -n argocd delete secret argocd-initial-admin-secret
 ```
 
+## For all GitOps application, the source repo to be used is https://github.com/argoproj/argocd-example-apps.git
+- To get the corresponding apiVersion to be used in Applications manifests, run:
+```
+$ kubectl --kubeconfig kubeconfig.yaml api-versions | grep argo
+```
 
-## For all apps, the repo to be used is https://github.com/argoproj/argocd-example-apps.git
 7. Create Guestbook App.
+```
+$ kubectl --kubeconfig kubeconfig apply -f 03-guestbook-app.yaml
+
+- Manually Sync the app as ArgoCD will not do it automatically:
+
+GUI: Just go to the Project Main page and click "Sync" in the Application.
+
+OR,
+
+CLI:
+$ argocd app get guestbook
+$ argocd app sync guestbook
+
+In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)
+In the GUI a display chart of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.
+
+$ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
+$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd
+$ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system guestbook-ui
+
+# Delete the Application.
+- Can be performed from GUI or CLI
+
+$ argocd app delete guestbook
+```
