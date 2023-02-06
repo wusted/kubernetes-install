@@ -83,7 +83,7 @@ $ kubectl --kubeconfig kubeconfig.yaml -n argocd delete secret argocd-initial-ad
 $ kubectl --kubeconfig kubeconfig.yaml api-versions | grep argo
 ```
 
-7. Create Guestbook App.
+7. Create Guestbook App from Kubernetes Manifest.
 ```
 $ kubectl --kubeconfig kubeconfig apply -f 03-guestbook-app.yaml
 
@@ -95,10 +95,11 @@ OR,
 
 CLI:
 $ argocd app get guestbook
-$ argocd app sync guestbook
+$ argocd app sync guestbook  # Enable auto-sync can be set in the UI inside of the App > App Details.
 
-In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)
-In the GUI a display chart of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.
+In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)  
+In the GUI a display chart of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.  
+
 
 $ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
 $ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd
@@ -109,3 +110,29 @@ $ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system guestboo
 
 $ argocd app delete guestbook
 ```
+
+
+7. Create Guestbook App from Helm Chart.
+```
+$ kubectl --kubeconfig kubeconfig apply -f 04-guestbook-helm-app.yaml
+
+- Manually Sync the app as ArgoCD will not do it automatically:
+
+GUI: Just go to the Project Main page and click "Sync" in the Application.
+
+OR,
+
+CLI:
+$ argocd app get guestbook
+$ argocd app sync guestbook  # Enable auto-sync can be set in the UI inside of the App > App Details.
+
+In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)  
+In the GUI a display chart of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.  
+Also from te GUI inside of the App > App Details > Parameters, the values.yaml of the Repo can be reviewed.
+
+$ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
+$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd
+$ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system guestbook-helm-guestbook
+```
+
+8. ArgoCD allows to apply Helm Charts in top of already existing Helm Charts to add Services.
