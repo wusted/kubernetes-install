@@ -1,0 +1,14 @@
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+terraform.tfstate
+terraform.tfstate.backup
+id_rsa.pub
+id_rsa
+kubeconfig.yaml
+kubeconfig.yml
+.terraform.lock
+.terraform.tfstate.lock.info
+*.log
+.terraform.lock.hcl
+runner-manifest.yaml
