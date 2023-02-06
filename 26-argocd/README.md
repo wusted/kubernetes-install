@@ -78,5 +78,5 @@ $ kubectl --kubeconfig kubeconfig.yaml -n argocd delete secret argocd-initial-ad
 ```
 
 
-# For all apps, the repo to be used is "https://github.com/argoproj/argocd-example-apps.git":
+## For all apps, the repo to be used is https://github.com/argoproj/argocd-example-apps.git
 7. Create Guestbook App.
