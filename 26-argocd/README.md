@@ -85,7 +85,8 @@ $ kubectl --kubeconfig kubeconfig.yaml api-versions | grep argo
 
 7. Create Guestbook App from Kubernetes Manifest.
 ```
-$ kubectl --kubeconfig kubeconfig apply -f 03-guestbook-app.yaml
+$ kubectl --kubeconfig kubeconfig.yaml apply -f 03-guestbook-app.yaml
+$ kubectl --kubeconfig kubeconfig.yaml get -f 03-guestbook-app.yaml
 
 - Manually Sync the app as ArgoCD will not do it automatically:
 
@@ -102,7 +103,7 @@ In the GUI a display chart of the Source Dependencies and Components from the Ku
 
 
 $ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
-$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd
+$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd guestbook
 $ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system guestbook-ui
 
 # Delete the Application.
@@ -114,7 +115,8 @@ $ argocd app delete guestbook
 
 7. Create Guestbook App from Helm Chart.
 ```
-$ kubectl --kubeconfig kubeconfig apply -f 04-guestbook-helm-app.yaml
+$ kubectl --kubeconfig kubeconfig.yaml apply -f 04-guestbook-helm-app.yaml
+$ kubectl --kubeconfig kubeconfig.yaml get -f 04-guestbook-helm-app.yaml
 
 - Manually Sync the app as ArgoCD will not do it automatically:
 
@@ -123,16 +125,97 @@ GUI: Just go to the Project Main page and click "Sync" in the Application.
 OR,
 
 CLI:
-$ argocd app get guestbook
-$ argocd app sync guestbook  # Enable auto-sync can be set in the UI inside of the App > App Details.
+$ argocd app get guestbook-helm
+$ argocd app sync guestbook-helm  # Enable auto-sync can be set in the UI inside of the App > App Details.
 
 In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)  
 In the GUI a display chart of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.  
-Also from te GUI inside of the App > App Details > Parameters, the values.yaml of the Repo can be reviewed.
+Also from the GUI inside of the App > App Details > Parameters, the values.yaml of the Repo can be reviewed.
 
 $ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
-$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd
-$ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system guestbook-helm-guestbook
+$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd guestbook-helm
+$ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system guestbook-helm-helm-guestbook
+
+# Delete the Application
+- Can be performed from GUI or CLI
+
+$ argocd app delete guestbook-helm
 ```
 
-8. ArgoCD allows to apply Helm Charts in top of already existing Helm Charts to add Services.
+8. ArgoCD allows the installation of Helm Charts on top of already existing Helm Charts to add Services.
+- values.yaml needs to have indented the values of the new helm chart. This helm chart uses the base of a helm template and adds WordPress to the Repo.
+
+```
+$ kubectl --kubeconfig kubeconfig.yaml apply -f 05-wordpress-helm-app.yaml
+$ kubectl --kubeconfig kubeconfig.yaml get -f 05-wordpress-helm-app.yaml
+
+- Manually Sync the app as ArgoCD will not do it automatically:
+
+GUI: Just go to the Project Main page and click "Sync" in the Application.
+
+OR,
+
+CLI:
+$ argocd app get wordpress-helm
+$ argocd app sync wordpress-helm # Enable auto-sync can be set in the UI inside of the App > App Details.
+
+In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)
+In the GUI a display chrt of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.
+Also from the GUI inside of the App > App Details > Parameters, the values.yaml of the Repo can be reviewed.
+
+# For this Sync it will take a while, since "service/wordpress-helm" creates a LoadBalancer in CloudProvisioner.
+
+$ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
+$ kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd wordpress-helm
+$ kubectl --kubeconfig kubeconfig.yaml get svc,deploy,ep -n kube-system 
+$ kubectl --kubeconfig kubeconfig.yaml get all -n kube-system | grep wordpress
+
+
+# Delete the Application
+- Can be performed from GUI or CLI
+
+$ argocd app delete wordpress-helm
+```
+
+
+9. A bundle of apps can be set in a Git Repo and created in an ArgoCD Application:
+- Useful for bootstraping a cluster with all of the apps/services needed to start working.
+
+```
+$ kubectl --kubeconfig kubeconfig.yaml apply -f 06-argo-apps.yaml
+$ kubectl --kubeconfig kubeconfig.yaml get -f 06-argo-apps.yaml
+
+- Manually Sync the app as ArgoCD will not do it automatically:
+
+GUI: Just go to the Project Main page and click "Sync" in the Application.
+
+OR,
+
+CLI:
+$ argocd app get argocd-apps
+$ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
+$ argocd app sync argocd-apps # Enable auto-sync can be set in the UI inside of the App > App Details.
+$ argocd app sync helm-guestbook
+$ argocd app sync helm-hooks
+$ argocd app sync kustomize-guestbook
+$ argocd app sync sync-waves
+
+
+In both outputs a list of the Kubernetes Resources from the Source(Manifest file, Helm Chart, Kustomize Apps, etc.)
+In the GUI a display chrt of the Source Dependencies and Components from the Kubernetes Cluster can be visualized.
+Also from the GUI inside of the App > App Details > Parameters, the values.yaml of the Repo can be reviewed.
+
+$ kubectl --kubeconfig kubeconfig.yaml get apps -n argocd
+$ for i in argocd-apps helm-guestbook helm-hooks kustomize-guestbook sync-waves; do kubectl --kubeconfig kubeconfig.yaml describe apps -n argocd $i ; done | less
+
+
+$ kubectl --kubeconfig kubeconfig.yaml get ns
+$ for i in kube-system helm-guestbook helm-hooks kustomize-guestbook sync-waves; do kubectl --kubeconfig kubeconfig.yaml get all -n $i; done | less
+$ kubectl --kubeconfig kubeconfig.yaml get all --all-namespaces | egrep -i 'kube-system|helm-guestbook|helm-hooks|kustomize-guestbook|sync-waves|namespace' | less
+
+
+# Delete the Application
+- Can be performed from GUI or CLI
+
+$ argocd app delete argocd-apps
+```

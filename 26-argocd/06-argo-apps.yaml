@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: guestbook-helm
+  name: argocd-apps
   namespace: argocd
 spec:
   source:
-    path: helm-guestbook
+    path: apps
     repoURL: https://github.com/argoproj/argocd-example-apps.git
     targetRevision: HEAD
   destination:
