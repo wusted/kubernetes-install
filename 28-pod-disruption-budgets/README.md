@@ -43,11 +43,13 @@ $ kubectl --kubeconfig kubeconfig.yaml get pods --selector=app=nginx -o wide
 - All Pods will be evicted without making sure that enough available replicas of the Nodes are running. (Can cause service downtime)
 - When draining, first Kubernetes will Cordon off the Node to disable the scheduling of new Pods in that Node.
 ```
-# Drain will move all the Pods without making sure a minimum number of replicas will leave the service running.
-# Replace jean-pod-disruption-cluster-nodes-q7dmk with the actual name of the Node. Ignore DaemonSet to avoid DaemonSets to be scheduled in other Node. (AntiPattern) 
+# Drain will move all the Pods without making sure a minimum number of replicas will leave the service running.  
+# Replace jean-pod-disruption-cluster-nodes-q7dmk with the actual name of the Node.  
+# Ignore DaemonSet to avoid DaemonSets to be scheduled in other Node. (AntiPattern) 
 $ kubectl --kubeconfig kubeconfig.yaml drain jean-pod-disruption-cluster-nodes-q7dmk --ignore-daemonsets
 
-# Confirm that that all the pods that were running in jean-pod-disruption-cluster-nodes-q7dmk are now placed in another node.
+# Confirm that that all the pods that were running in jean-pod-disruption-cluster-nodes-q7dmk 
+# are now placed in another node.
 $ kubectl --kubeconfig kubeconfig.yaml get pods --selector=app=nginx -o wide
 
 # Check the status of the Cordoned Node is SchedulingDisabled.
@@ -83,11 +85,14 @@ $ kubectl --kubeconfig kubeconfig.yaml describe poddisruptionbudgets
 ```
 
 ```
-# Drain will move all the Pods while making sure a minimum number of replicas will leave the service running.
-# Replace jean-pod-disruption-cluster-nodes-q7dmk with the actual name of the Node. Ignore DaemonSet to avoid DaemonSets to be scheduled in other Node. (AntiPattern) 
+# Drain will move all the Pods while making sure a minimum number of replicas will leave the service running.  
+# Replace jean-pod-disruption-cluster-nodes-q7dmk with the actual name of the Node.  
+# Ignore DaemonSet to avoid DaemonSets to be scheduled in other Node. (AntiPattern) 
 
 $ kubectl --kubeconfig kubeconfig.yaml drain jean-pod-disruption-cluster-nodes-q7dmk --ignore-daemonsets
-# Messages like `"error when evicting pods/"nginx-76d6c9b8c-zzzwx" -n "default" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget."` Confirms that a desired number of replicas will be maintained for reliability of the service, before evicting and moving the Pods.
+# Messages like  
+# "error when evicting pods/"nginx-76d6c9b8c-zzzwx" -n "default" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget."`  
+Confirms that a desired number of replicas will be maintained for reliability of the service, before evicting and moving the Pods.
 
 # Confirm that that all the pods that were running in jean-pod-disruption-cluster-nodes-q7dmk are now placed in another node.
 $ kubectl --kubeconfig kubeconfig.yaml get pods --selector=app=nginx -o wide
