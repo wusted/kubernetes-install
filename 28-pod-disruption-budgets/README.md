@@ -90,11 +90,16 @@ $ kubectl --kubeconfig kubeconfig.yaml describe poddisruptionbudgets
 # Ignore DaemonSet to avoid DaemonSets to be scheduled in other Node. (AntiPattern) 
 
 $ kubectl --kubeconfig kubeconfig.yaml drain jean-pod-disruption-cluster-nodes-q7dmk --ignore-daemonsets
-# Messages like  
-# "error when evicting pods/"nginx-76d6c9b8c-zzzwx" -n "default" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget."`  
-Confirms that a desired number of replicas will be maintained for reliability of the service, before evicting and moving the Pods.
+# Messages like:  
+  
+# "error when evicting pods/"nginx-76d6c9b8c-xqjq9" -n "default" (will retry after 5s): 
+# Cannot evict pod as it would violate the pod's disruption budget."`  
+  
+# Confirms that a desired number of replicas will be maintained for reliability of the service, 
+# before evicting and moving the Pods.
 
-# Confirm that that all the pods that were running in jean-pod-disruption-cluster-nodes-q7dmk are now placed in another node.
+# Confirm that that all the pods that were running in jean-pod-disruption-cluster-nodes-q7dmk  
+# are now placed in another node.
 $ kubectl --kubeconfig kubeconfig.yaml get pods --selector=app=nginx -o wide
 
 # Check the status of the Cordoned Node is SchedulingDisabled.
