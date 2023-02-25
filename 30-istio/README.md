@@ -31,7 +31,7 @@ $ terraform apply
 $ kubectl --kubeconfig kubeconfig.yaml get nodes
 ```
 
-4. Install istioctl on client
+4. Install istioctl on client  
 Ref: https://istio.io/latest/docs/setup/getting-started/#download
 
 ```
@@ -120,8 +120,8 @@ $ kubectl --kubeconfig kubeconfig.yaml port-forward -n istio-system svc/grafana 
 Along with many other features.
 
 Ref:
-https://istio.io/latest/docs/concepts/traffic-management/#gateways
-https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/
+https://istio.io/latest/docs/concepts/traffic-management/#gateways  
+https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/  
 https://istio.io/latest/docs/tasks/traffic-management/traffic-shifting/
 
 ```
@@ -214,7 +214,7 @@ $ kubectl --kubeconfig kubeconfig.yaml get pods
 - Maybe deleting a deployment OR a service is an extreme scenario, but we can also use Istio+Kiali+Grafana to monitor and detect latency, communication issues and multiple errors in architectures with multiple microservices to understand and analyze the network dependencies and what is failing.
 
 ====
-Istio is a great tool to enable developers.
+Istio is a great tool to enable developers.  
 Other Istio Features include:
 - create policies for traffic routing.
 - divide or weight the traffic for 2 versions of a deployment.
