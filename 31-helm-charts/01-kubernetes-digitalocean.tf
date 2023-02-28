@@ -5,7 +5,7 @@ resource "digitalocean_kubernetes_cluster" "jean" {
 
     node_pool {
       name = "jean-helm-cluster-nodes"
-      size = "2-vcpu-4gb"
+      size = "s-2vcpu-4gb"
       node_count = 2
       tags = ["jean-helm-cluster-nodes"]
     }
