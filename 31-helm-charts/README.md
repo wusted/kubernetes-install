@@ -5,8 +5,8 @@ Ref: https://helm.sh/docs/topics/charts/
 - All resources are provisioned with Terraform.
 - Kubernetes Cluster
 - Cloud Provisioner: Digital Ocean
-- Make sure to havel helm installed in local client.
-- Helms charts applies resources in Kubernetes as a Package Manager connecting to Repositories.
+- Make sure to have helm installed in the local client.
+- Helms charts apply resources in Kubernetes as a Package Manager connecting to Repositories.
 
 1. Add the do_token environment variable for Terraform.
 ```
@@ -31,7 +31,7 @@ $ terraform apply
 $ kubectl --kubeconfig kubeconfig.yaml get nodes
 ```
 
-4. Install Helm in client.
+4. Install Helm in the client.
 ```
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 $ chmod 700 get_helm.sh
@@ -41,7 +41,7 @@ $ helm version
 
 5. Create our chart 
 - This is going to create a directory with a directory structure inside, for charts, chart configuration, templates, and `values.yaml`
-- The chart contains default settings for an example nginx app, this can be modified as needed.
+- The chart contains default settings for an example "nginx" app, this can be modified as needed.
 ```
 $ helm create jeanchart
 $ ls
@@ -153,10 +153,60 @@ $ git commit -m "Helm Chart Repo Example"
 $ git push -u origin main
 ```
 
-====
-Helm is a great tool for...  
+10. Test this Helm Repo hosted in Github on a Kubernetes Cluster and Install it.
+
+```
+$ cd ../kubernetes-install/31-helm-charts/ 
+$ helm --kubeconfig kubeconfig.yaml repo add [new_helm_repo_name] [Github_pages_URL]  
+# In this example:
+$ helm --kubeconfig kubeconfig.yaml repo add jeanrepo https://wusted.github.io/helm-chart/
+
+# Installation
+$ helm --kubeconfig kubeconfig.yaml search repo jeanrepo
+$ helm --kubeconfig kubeconfig.yaml install --dry-run test jeanrepo/jeanchart
+$ helm --kubeconfig kubeconfig.yaml install test jeanrepo/jeanchart
+
+$ kubectl --kubeconfig kubeconfig.yaml get pods,svc
+```
+
+- This will not become Ready, since the /readiness endpoint does not exist. 
+
+```
+$ kubectl --kubeconfig kubeconfig.yaml describe pods test-jeanchart-* | less
+--
+ Warning  Unhealthy  67s (x12 over 111s)  kubelet            Readiness probe failed: HTTP probe failed with statuscode: 404
+Warning  Unhealthy  67s (x5 over 107s)   kubelet            Liveness probe failed: HTTP probe failed with statuscode: 404
+--
+```
+
+- Uninstall the helm chart.
+```
+$ helm --kubeconfig kubeconfig.yaml list  
+$ helm --kubeconfig kubeconfig.yaml uninstall test
+```
+
+We can revert that from the values.yaml file.
+OR by hardcoding the command when installing the helm chart.
+
+```
+$ helm --kubeconfig kubeconfig.yaml install test jeanrepo/jeanchart --set healthcheck.livenessProbe.path=/ --set healthcheck.readinessProbe.path=/
+
+# This should work and become ready
+$ kubectl --kubeconfig kubeconfig.yaml get pods,svc
+```
+
+- This should now be Ready, since the / endpoint does exist. 
+
+```
+$ kubectl --kubeconfig kubeconfig.yaml describe pods test-jeanchart-* | less
+--
+    Liveness:       http-get http://:http/ delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:http/ delay=0s timeout=1s period=10s #success=1 #failure=3
+--
+```
+
+===
+Helm is a great tool for creating repositories for helm charts that can be used to deploy Kubernetes manifests in a bundle/repository fashion. 
 Other Helm Features include:
-- 
-- 
-- 
-- 
+- Host Helm Chart Repository in Github Pages for free and used it on any server that has access to Github.
+- Can also be hosted locally or On-Prem.
