@@ -109,7 +109,49 @@ $ helm --kubeconfig kubeconfig.yaml install --dry-run debug ./jeanchart | less
 
 8. We can also create our own Helm Repo with this chart, hosted in Github and share it with anyone.
 
+- Create and new repo in github.com/wusted/ named "helm-chart"
+```
+from 31-helm-charts $ mkdir ../../helm-chart
+$ cd ../
+$ cp -r 31-helm-charts/jeanchart ../helm-chart
+$ cd ../helm-chart
 
+$ echo "Use this with: https://github.com/wusted/kubernetes-install/tree/main/31-helm-charts" >> README.md
+$ git init
+$ git add .
+$ git commit -m "Helm Chart Repo Example"
+$ git branch -M main
+$ git remote add origin https://github.com/wusted/helm-chart.git
+$ git push -u origin main
+```
+
+- Go to https://github.com/wusted/helm-chart
+Then, to the "Settings" section, under code and automation go to "Pages". Set "main" branch and save.
+
+- Wait for "job" build and deploy to complete in "Actions"
+- Back in pages the URL for this case is https://wusted.github.io/helm-chart/
+
+- Package the chart from the new Git Repo.
+```
+$ helm package jeanchart/
+$ mkdir charts
+$ mv jeanchart-0.1.0.tgz charts
+$ tree
+```
+
+- Create an index for the helm client to know which charts are in this repo.
+- This index will check for all the .tgz files in charts/ and create a list with those charts for the repo.
+```
+$ helm repo index .
+$ less index.yaml
+```
+
+9. Sync with git
+```
+$ git add .
+$ git commit -m "Helm Chart Repo Example"
+$ git push -u origin main
+```
 
 ====
 Helm is a great tool for...  
