@@ -9,7 +9,7 @@ spec:
       memory: "128Mi"
     min:
       cpu: "50m"
-      memory: "65Mi"
+      memory: "64Mi"
     default:
       cpu: "125m"
       memory: "128Mi"
