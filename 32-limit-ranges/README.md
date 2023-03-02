@@ -37,7 +37,7 @@ $ kubectl --kubeconfig kubeconfig.yaml get nodes
 6. Create Pod with a bigger Resource Request than the Limit Range
 
 ===
-Helm is a great tool for creating repositories for helm charts that can be used to deploy Kubernetes manifests in a bundle/repository fashion. 
-Other Helm Features include:
-- Host Helm Chart Repository in Github Pages for free and used it on any server that has access to Github.
-- Can also be hosted locally or On-Prem.
+LimitRanges is a great object for ...
+Other LimitRange features include:
+- 
+- 
