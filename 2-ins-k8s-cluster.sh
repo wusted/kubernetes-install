@@ -1,4 +1,4 @@
-## Not a Script yet, but working on making it one :)
+#!/bin/bash
 ## Steps are tested to work.
 
 ## PRE: Do the SSH Passwordless, and add the hostnames to /etc/hosts
@@ -160,9 +160,9 @@ kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}'
 
 
 ######################### IF NEED TO RESTORE THE CONFIGURATION ON EACH NODE:
-sudo kubeadm reset -f
-sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
-systemctl restart docker
+#sudo kubeadm reset -f
+#sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
+#systemctl restart docker
 ##############################################
 
 
